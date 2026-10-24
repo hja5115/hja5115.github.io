@@ -1,0 +1,9 @@
+node_modules/
+dist/
+work/
+.env
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+OWNER_*

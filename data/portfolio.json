@@ -1,0 +1,407 @@
+{
+  "schemaVersion": 1,
+  "site": {
+    "name": "홍정아",
+    "englishName": "Hong Jung Ah",
+    "role": "GAME UI/UX · UNITY",
+    "headline": "플레이의 흐름을 설계합니다.",
+    "intro": "게임의 분위기를 담은 비주얼과 명확한 정보 구조로, 플레이의 순간을 이어가는 인터페이스를 만듭니다.",
+    "email": "hongah44@gmail.com",
+    "github": "",
+    "contactUrl": "https://open.kakao.com/o/slV1TXTi",
+    "contactLabel": "카카오톡으로 이야기하기",
+    "heroImage": "assets/papershot-lobby.webp"
+  },
+  "projects": [
+    {
+      "id": "papershot",
+      "title": "PAPER SHOT",
+      "genre": "서브컬처 · TPS",
+      "summary": "캐릭터의 개성을 중심에 두고, 로비에서 전투와 성장 콘텐츠로 이어지는 슈팅 게임 UI를 구성한 프로젝트입니다.",
+      "role": "",
+      "tools": [],
+      "tags": [
+        "UI Design",
+        "TPS",
+        "PC"
+      ],
+      "accent": "#4F7FFF",
+      "cover": "assets/papershot-cover.webp",
+      "images": [
+        {
+          "id": "lobby",
+          "src": "assets/papershot-lobby.webp",
+          "alt": "PAPERSHOT 로비",
+          "title": "로비",
+          "description": "PLAY를 첫 메뉴로 강조하고, 주요 콘텐츠와 보조 메뉴를 좌측에 모은 구성입니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        },
+        {
+          "id": "inventory",
+          "src": "assets/papershot-inventory.webp",
+          "alt": "PAPERSHOT 캐릭터 인벤토리",
+          "title": "캐릭터 인벤토리",
+          "description": "중앙의 캐릭터 미리보기와 좌측 꾸미기 항목, 우측 스킨 정보를 구분합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        },
+        {
+          "id": "ingame",
+          "src": "assets/papershot-ingame.webp",
+          "alt": "PAPERSHOT 인게임 HUD",
+          "title": "인게임 HUD",
+          "description": "상단의 전투 목표와 하단의 체력·스킬·탄약 정보를 전장 화면의 가장자리에 배치합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        },
+        {
+          "id": "battle-pass",
+          "src": "assets/papershot-battle-pass.webp",
+          "alt": "PAPERSHOT 배틀 패스",
+          "title": "배틀 패스",
+          "description": "프리미엄과 무료 보상을 하나의 진행 트랙 안에서 구분하고, 선택 보상의 내용을 우측에 표시합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        }
+      ],
+      "process": [
+        {
+          "id": "lobby",
+          "label": "01 / 화면 목표",
+          "title": "전투 진입을 먼저 보이게",
+          "body": "로비는 캐릭터 비주얼을 넓게 활용하면서 PLAY에 노란 강조색을 적용해 주요 진입점을 드러냅니다.",
+          "image": "assets/papershot-lobby.webp"
+        },
+        {
+          "id": "inventory",
+          "label": "02 / 정보 구조",
+          "title": "선택 목록과 미리보기 분리",
+          "body": "꾸미기 항목, 캐릭터 미리보기, 선택 스킨의 이름과 설명을 나누어 탐색 영역과 확인 영역을 구분합니다.",
+          "image": "assets/papershot-inventory.webp"
+        },
+        {
+          "id": "battle-pass",
+          "label": "03 / 인터랙션과 상태",
+          "title": "보상의 진행 상태 구분",
+          "body": "트랙의 체크 표시, 잠금 표시, FREE와 PREMIUM 라벨로 획득 여부와 보상 종류를 시각적으로 구분합니다.",
+          "image": "assets/papershot-battle-pass.webp"
+        }
+      ],
+      "videoUrl": "",
+      "fullSheet": "assets/papershot-full.webp"
+    },
+    {
+      "id": "chronos",
+      "title": "CHRONOS",
+      "genre": "판타지 · MOBA",
+      "summary": "어두운 판타지 톤과 금속성 프레임을 바탕으로 모드 선택, 챔피언 탐색, 전투 HUD를 연결한 게임 UI 프로젝트입니다.",
+      "role": "",
+      "tools": [],
+      "tags": [
+        "UI Design",
+        "MOBA",
+        "Mobile"
+      ],
+      "accent": "#D2B977",
+      "cover": "assets/chronos-cover.webp",
+      "images": [
+        {
+          "id": "lobby",
+          "src": "assets/chronos-lobby.webp",
+          "alt": "CHRONOS 로비",
+          "title": "로비",
+          "description": "주요 메뉴와 재화·알림을 화면 가장자리로 정리하고 우측 하단에 매칭 상태를 표시합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        },
+        {
+          "id": "mode-select",
+          "src": "assets/chronos-mode-select.webp",
+          "alt": "CHRONOS 모드 선택",
+          "title": "모드 선택",
+          "description": "카드형 모드 목록에서 현재 선택한 항목을 청록색 테두리와 상단 표식으로 강조합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        },
+        {
+          "id": "champions",
+          "src": "assets/chronos-champions.webp",
+          "alt": "CHRONOS 챔피언 정보",
+          "title": "챔피언 정보",
+          "description": "캐릭터 프리뷰와 스킬 아이콘, 성능 항목, 구매 정보를 하나의 화면에 구성합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        },
+        {
+          "id": "ingame",
+          "src": "assets/chronos-ingame.webp",
+          "alt": "CHRONOS 인게임 HUD",
+          "title": "인게임 HUD",
+          "description": "미니맵·팀 상태와 터치형 이동·전투 조작을 전장 가장자리에 나누어 배치합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 810
+        }
+      ],
+      "process": [
+        {
+          "id": "lobby",
+          "label": "01 / 화면 목표",
+          "title": "탐색과 매칭 상태를 함께",
+          "body": "중앙 캐릭터 비주얼을 유지하면서 하단 메뉴와 매칭 시간 표시를 분리해 로비의 기능을 드러냅니다.",
+          "image": "assets/chronos-lobby.webp"
+        },
+        {
+          "id": "champions",
+          "label": "02 / 정보 구조",
+          "title": "캐릭터 선택에 필요한 정보",
+          "body": "캐릭터 이름과 역할 설명, 능력 항목, 스킬, 가격 정보를 구획별로 정리합니다.",
+          "image": "assets/chronos-champions.webp"
+        },
+        {
+          "id": "mode-select",
+          "label": "03 / 인터랙션과 상태",
+          "title": "선택 상태의 일관된 강조",
+          "body": "금색을 기본 프레임에 사용하고 현재 선택에는 청록색 발광 테두리와 표식을 함께 적용합니다.",
+          "image": "assets/chronos-mode-select.webp"
+        }
+      ],
+      "videoUrl": "",
+      "fullSheet": "assets/chronos-full.webp"
+    },
+    {
+      "id": "biobeam",
+      "title": "BIO BEAM",
+      "genre": "캐주얼 · 팀 슈팅",
+      "summary": "생동감 있는 컬러와 큰 카드 UI를 사용해 게임 모드 선택, 영웅 탐색, 컨트롤러 설정을 구성한 프로젝트입니다.",
+      "role": "",
+      "tools": [],
+      "tags": [
+        "UI Design",
+        "Shooter",
+        "Console"
+      ],
+      "accent": "#6974FF",
+      "cover": "assets/biobeam-cover.webp",
+      "images": [
+        {
+          "id": "game-select",
+          "src": "assets/biobeam-game-select.webp",
+          "alt": "BIOBEAM 게임 모드 선택",
+          "title": "게임 모드 선택",
+          "description": "가로형 카드에 모드 이름과 설명을 넣고 선택 항목에 외곽선과 화살표를 함께 표시합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 780
+        },
+        {
+          "id": "heroes",
+          "src": "assets/biobeam-heroes.webp",
+          "alt": "BIOBEAM 영웅 선택",
+          "title": "영웅 선택",
+          "description": "대형 캐릭터 프리뷰와 하단 썸네일 목록, 하단 컨트롤러 조작 안내를 함께 제공합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 758
+        },
+        {
+          "id": "settings",
+          "src": "assets/biobeam-settings.webp",
+          "alt": "BIOBEAM 환경 설정",
+          "title": "환경 설정",
+          "description": "좌측 설정 범주와 우측 옵션을 분리하고, 포커스와 On·Off 상태를 각각 표시합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 908
+        }
+      ],
+      "process": [
+        {
+          "id": "game-select",
+          "label": "01 / 화면 목표",
+          "title": "플레이할 모드를 비교",
+          "body": "카드마다 이미지, 이름, 짧은 규칙을 같은 순서로 배치해 모드 간 비교가 가능한 구조를 만듭니다.",
+          "image": "assets/biobeam-game-select.webp"
+        },
+        {
+          "id": "heroes",
+          "label": "02 / 정보 구조",
+          "title": "영웅 프리뷰와 조작 안내",
+          "body": "선택한 영웅의 모습과 속성을 상단에 보여주고, 다른 영웅 목록과 버튼 안내는 하단에 고정한 구성입니다.",
+          "image": "assets/biobeam-heroes.webp"
+        },
+        {
+          "id": "settings",
+          "label": "03 / 인터랙션과 상태",
+          "title": "포커스와 설정값을 구분",
+          "body": "노란 화살표와 외곽선으로 현재 포커스를 표시하고 파란색 토글 영역으로 선택값을 구분합니다.",
+          "image": "assets/biobeam-settings.webp"
+        }
+      ],
+      "videoUrl": "",
+      "fullSheet": "assets/biobeam-full.webp"
+    },
+    {
+      "id": "dreamy-ocean",
+      "title": "DREAMY OCEAN",
+      "genre": "캐주얼 · 퍼즐",
+      "summary": "밝은 바다 테마 안에서 퍼즐 플레이, 꾸미기 상점, 레벨 선택을 일관된 둥근 UI로 구성한 프로젝트입니다.",
+      "role": "",
+      "tools": [],
+      "tags": [
+        "UI Design",
+        "Puzzle",
+        "Mobile"
+      ],
+      "accent": "#39CCDA",
+      "cover": "assets/dreamy-ocean-cover.webp",
+      "images": [
+        {
+          "id": "lobby",
+          "src": "assets/dreamy-ocean-lobby.webp",
+          "alt": "DREAMY-OCEAN 로비",
+          "title": "로비",
+          "description": "중앙의 수중 공간을 넓게 보여주면서 가장자리에 재화, 이벤트와 주요 기능을 배치합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 772
+        },
+        {
+          "id": "play-select",
+          "src": "assets/dreamy-ocean-play-select.webp",
+          "alt": "DREAMY-OCEAN 레벨 선택",
+          "title": "레벨 선택",
+          "description": "목표와 보조 아이템을 확인한 뒤 하단 Play 버튼으로 진입하는 화면입니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 765
+        },
+        {
+          "id": "puzzle",
+          "src": "assets/dreamy-ocean-puzzle.webp",
+          "alt": "DREAMY-OCEAN 퍼즐 플레이",
+          "title": "퍼즐 플레이",
+          "description": "중앙 보드와 좌측 목표·잔여 횟수, 우측 보조 아이템의 영역을 분리합니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 780
+        },
+        {
+          "id": "shop",
+          "src": "assets/dreamy-ocean-shop.webp",
+          "alt": "DREAMY-OCEAN 꾸미기 상점",
+          "title": "꾸미기 상점",
+          "description": "상품을 카드 그리드로 정리하고 카테고리, 가격, 잠금 조건과 보유 재화를 함께 보여줍니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 780
+        }
+      ],
+      "process": [
+        {
+          "id": "lobby",
+          "label": "01 / 화면 목표",
+          "title": "바다 테마와 플레이 진입",
+          "body": "수중 공간과 캐릭터를 중심에 두고, 하단의 레벨 버튼과 주요 기능 버튼을 큰 원형 요소로 구성합니다.",
+          "image": "assets/dreamy-ocean-lobby.webp"
+        },
+        {
+          "id": "puzzle",
+          "label": "02 / 정보 구조",
+          "title": "보드 주변의 역할 분리",
+          "body": "퍼즐 보드를 중앙에 놓고 목표 정보와 보조 도구를 좌우로 나누어 플레이 중 확인할 정보를 정리합니다.",
+          "image": "assets/dreamy-ocean-puzzle.webp"
+        },
+        {
+          "id": "shop",
+          "label": "03 / 인터랙션과 상태",
+          "title": "구매와 잠금 상태 표현",
+          "body": "상품 카드의 가격 표기와 해제 조건 문구, 카테고리 탭으로 상점의 선택·탐색 상태를 구분합니다.",
+          "image": "assets/dreamy-ocean-shop.webp"
+        }
+      ],
+      "videoUrl": "",
+      "fullSheet": "assets/dreamy-ocean-full.webp"
+    },
+    {
+      "id": "arcana",
+      "title": "ARCANA",
+      "genre": "판타지 · 수집형 RPG",
+      "summary": "양피지와 금색 장식의 세로형 화면 안에서 월드 탐색, 영웅 수집, 장비와 성장 정보를 구성한 프로젝트입니다.",
+      "role": "",
+      "tools": [],
+      "tags": [
+        "UI Design",
+        "Collection RPG",
+        "Mobile"
+      ],
+      "accent": "#D5B775",
+      "cover": "assets/arcana-cover.webp",
+      "images": [
+        {
+          "id": "lobby",
+          "src": "assets/arcana-lobby.webp",
+          "alt": "ARCANA 월드 로비",
+          "title": "월드 로비",
+          "description": "월드 지도를 중심에 두고 PLAY 버튼과 하단 주요 내비게이션을 배치합니다.",
+          "kind": "UI",
+          "width": 1080,
+          "height": 1840
+        },
+        {
+          "id": "collection",
+          "src": "assets/arcana-collection.webp",
+          "alt": "ARCANA 영웅 컬렉션",
+          "title": "영웅 컬렉션",
+          "description": "등급별 영웅 카드와 보유·미보유 상태를 동일한 목록 안에서 구분합니다.",
+          "kind": "UI",
+          "width": 1080,
+          "height": 1920
+        },
+        {
+          "id": "hero",
+          "src": "assets/arcana-hero.webp",
+          "alt": "ARCANA 영웅 상세",
+          "title": "영웅 상세",
+          "description": "캐릭터 주변에 장비 슬롯을 배치하고 하단에 능력치와 성장·장비 행동을 정리합니다.",
+          "kind": "UI",
+          "width": 1080,
+          "height": 1910
+        }
+      ],
+      "process": [
+        {
+          "id": "lobby",
+          "label": "01 / 화면 목표",
+          "title": "월드에서 전투로 이동",
+          "body": "월드 맵과 하단 PLAY 버튼을 한 화면에 구성하고, 자주 사용하는 기능을 하단 내비게이션으로 모읍니다.",
+          "image": "assets/arcana-lobby.webp"
+        },
+        {
+          "id": "hero",
+          "label": "02 / 정보 구조",
+          "title": "장비와 성장 정보를 함께",
+          "body": "캐릭터 미리보기, 장비 슬롯, 능력치, 성장 버튼의 영역을 나누어 영웅 관리 화면을 구성합니다.",
+          "image": "assets/arcana-hero.webp"
+        },
+        {
+          "id": "collection",
+          "label": "03 / 인터랙션과 상태",
+          "title": "보유 여부와 선택 탭 구분",
+          "body": "컬러 카드와 흐리게 처리한 카드로 영웅 보유 상태를 구분하고, 현재 탭은 주황색으로 강조합니다.",
+          "image": "assets/arcana-collection.webp"
+        }
+      ],
+      "videoUrl": "",
+      "fullSheet": "assets/arcana-full.webp"
+    }
+  ]
+}

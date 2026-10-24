@@ -1,0 +1,5 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {escapeHtml,safeAssetPath,safeExternalUrl,normalizeDocument} from '../js/content.js';
+test('public content escapes HTML and rejects executable or traversal URLs',()=>{assert.equal(escapeHtml('<img onerror="x">'), '&lt;img onerror=&quot;x&quot;&gt;');for(const path of ['../secret.png','assets/../secret.png','https://evil/image.png','data:image/png,x','assets//x.png'])assert.equal(safeAssetPath(path),'');assert.equal(safeAssetPath('assets/uploads/a.webp'),'assets/uploads/a.webp');for(const url of ['javascript:alert(1)','data:text/html,xx','https://user:pass@x.com'])assert.equal(safeExternalUrl(url),'');assert.equal(safeExternalUrl('https://open.kakao.com/o/slV1TXTi'),'https://open.kakao.com/o/slV1TXTi');});
+test('documents require the supported schema and normalize optional collections',()=>{assert.throws(()=>normalizeDocument({}));assert.deepEqual(normalizeDocument({schemaVersion:1,site:{},projects:[{id:'a'}]}).projects[0].images,[]);});
