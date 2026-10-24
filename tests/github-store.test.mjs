@@ -140,6 +140,17 @@ test('owner identity is case insensitive and credentials stay in instance memory
   mock.done();
 });
 
+test('fetch receives the global browser receiver rather than the GitHubStore instance', async () => {
+  const mock = mockFetch(authSteps());
+  const store = new GitHubStore(config, { fetchImpl: function (url, options) {
+    if (this !== globalThis) throw new TypeError('Illegal invocation');
+    return mock.fetchImpl(url, options);
+  } });
+  await store.authenticate(token);
+  assert.equal(store.connected, true);
+  mock.done();
+});
+
 test('a different GitHub account is refused before the repository is requested', async () => {
   const mock = mockFetch([step('GET', '/user', { login: 'someone-else' })]);
   const store = new GitHubStore(config, mock);

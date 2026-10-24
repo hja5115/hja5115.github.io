@@ -233,7 +233,8 @@ export class GitHubStore {
       throw new GitHubStoreError('GitHub 저장소 설정을 확인해 주세요. main의 data/portfolio.json만 편집할 수 있습니다.', 'INVALID_CONFIG');
     }
     this.#config = Object.freeze({ owner, repo, branch, dataPath });
-    this.#fetch = fetchImpl;
+    // Native browser fetch must receive the Window/global receiver, not this store.
+    this.#fetch = fetchImpl.bind(globalThis);
   }
 
   get sha() { return this.#sha; }

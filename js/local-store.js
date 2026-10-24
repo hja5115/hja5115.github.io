@@ -9,7 +9,8 @@ export class LocalGitHubStore {
 
   constructor(config = {}, { fetchImpl = globalThis.fetch } = {}) {
     this.#config = Object.freeze({ ...config });
-    this.#fetch = fetchImpl;
+    // Calling a private function field directly would otherwise pass the store as `this`.
+    this.#fetch = fetchImpl.bind(globalThis);
   }
 
   get sha() { return this.#sha; }

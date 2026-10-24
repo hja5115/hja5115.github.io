@@ -250,3 +250,16 @@ test('closing a browser bridge during authentication cannot revive its session',
   assert.equal(store.connected, false);
   assert.equal(store.sha, null);
 });
+
+test('local browser fetch receives the global receiver and passes native brand checks', async () => {
+  let calls = 0;
+  const store = new LocalGitHubStore(config, { fetchImpl: function (path) {
+    if (this !== globalThis) throw new TypeError('Illegal invocation');
+    calls += 1;
+    const result = path.endsWith('/session') ? { nonce: 'a'.repeat(64) } : { login: 'hja5115', ...config };
+    return Promise.resolve({ ok: true, status: 200, json: async () => result });
+  } });
+  await store.authenticate();
+  assert.equal(store.connected, true);
+  assert.equal(calls, 2);
+});

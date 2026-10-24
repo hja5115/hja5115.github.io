@@ -72,10 +72,14 @@ function projectMarkup(project, index) {
   const sheet = asset(project.fullSheet);
   return `<article class="project" id="${h(project.id)}" style="--project-accent:${accent}">
     <div class="project-heading reveal"><span class="project-number">${String(index+1).padStart(2,'0')}</span><div><div class="project-title-line"><h3>${h(project.title)}</h3>${project.genre ? `<span class="genre-label">${h(project.genre)}</span>` : ''}</div><p class="project-summary">${h(project.summary)}</p><div class="project-tags">${[...new Set([...project.tags,...project.tools])].map(tag => `<span>${h(tag)}</span>`).join('')}</div></div><div class="gallery-controls"><span class="gallery-counter" data-counter="${h(project.id)}">01 / ${String(project.images.length).padStart(2,'0')}</span><button class="icon-button" data-gallery-prev="${h(project.id)}" aria-label="${h(project.title)} 이전 이미지">←</button><button class="icon-button" data-gallery-next="${h(project.id)}" aria-label="${h(project.title)} 다음 이미지">→</button></div></div>
-    <div class="gallery reveal" data-gallery="${h(project.id)}" role="region" aria-label="${h(project.title)} 이미지 갤러리" tabindex="0">${project.images.map((image,i) => `<figure class="shot-card" style="margin:0"><button class="shot-open" data-project="${h(project.id)}" data-image="${i}" aria-label="${h(image.title)} 이미지와 설명 확대 보기"><span class="shot-frame"><img src="${h(asset(image.src))}" alt="${h(image.alt || image.title)}" loading="lazy" decoding="async"${image.width ? ` width="${Number(image.width)}" height="${Number(image.height)}"` : ''}></span><span class="shot-enlarge">이미지 & 설명 보기 <span aria-hidden="true">↗</span></span></button><figcaption class="shot-caption">${h(image.title)}<span>${h(image.kind || 'UI')} / ${String(i+1).padStart(2,'0')}</span></figcaption></figure>`).join('')}</div><div class="gallery-hint">좌우로 스크롤하거나 화살표를 눌러 살펴보세요.</div>
+    ${project.images[0] ? shotMarkup(project, project.images[0], 0, true) : ''}
+    <div class="secondary-gallery-heading"><span>MORE SCREENS</span><span>${Math.max(0, project.images.length - 1)} SCREENS / 2 COLUMNS</span></div>
+    <div class="gallery reveal" data-gallery="${h(project.id)}" role="region" aria-label="${h(project.title)} 이미지 갤러리" tabindex="0">${project.images.slice(1).map((image,i) => shotMarkup(project,image,i+1)).join('')}</div><div class="gallery-hint">다른 화면은 2열로 살펴보고, 좌우 스크롤로 더 볼 수 있습니다.</div>
     <section class="project-process" aria-label="${h(project.title)} UX 설계 과정"><div class="process-intro reveal"><div><p class="eyebrow">BEHIND THE INTERFACE / UX</p><h4>화면을 설계한 관점</h4></div>${sheet ? `<a class="quiet-link" href="${h(sheet)}" target="_blank" rel="noopener noreferrer">전체 시트 보기 ↗</a>` : ''}</div><div class="process-grid">${project.process.map(step => `<article class="process-card reveal"><span class="process-step">${h(step.label)}</span><h5>${h(step.title)}</h5><p>${h(step.body)}</p>${asset(step.image) ? `<img src="${h(asset(step.image))}" alt="${h(step.title)} 설계 자료" loading="lazy">` : ''}</article>`).join('')}</div>${video ? `<a class="project-video" href="${h(video)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span> Unity / 인터랙션 작동 영상 <span aria-hidden="true">↗</span></a>` : ''}</section>
   </article>`;
 }
+
+function shotMarkup(project,image,index,lead=false){return `<figure class="shot-card${lead?' lead-shot reveal':''}" style="margin:0"><button class="shot-open" data-project="${h(project.id)}" data-image="${index}" aria-label="${h(image.title)} 이미지와 설명 확대 보기"><span class="shot-frame"><img src="${h(asset(image.src))}" alt="${h(image.alt || image.title)}" loading="lazy" decoding="async"${image.width?` width="${Number(image.width)}" height="${Number(image.height)}"`:''}></span><span class="shot-enlarge"><span class="enlarge-label">이미지 & 설명 보기</span><span aria-hidden="true">↗</span></span></button><figcaption class="shot-caption">${h(image.title)}<span>${lead?'MAIN SCREEN':h(image.kind||'UI')} / ${String(index+1).padStart(2,'0')}</span></figcaption></figure>`;}
 
 function renderContact(site) {
   const contact = safeExternalUrl(site.contactUrl);
@@ -85,11 +89,14 @@ function renderContact(site) {
 }
 
 function bindGalleries() {
+  document.querySelectorAll('.lead-shot .shot-open').forEach(button => button.addEventListener('click', () => openViewer(button.dataset.project,Number(button.dataset.image),button)));
   document.querySelectorAll('.gallery').forEach(gallery => {
     const id = gallery.dataset.gallery;
     const prev = document.querySelector(`[data-gallery-prev="${CSS.escape(id)}"]`);
     const next = document.querySelector(`[data-gallery-next="${CSS.escape(id)}"]`);
     const count = document.querySelector(`[data-counter="${CSS.escape(id)}"]`);
+    const controls = prev.closest('.gallery-controls');
+    gallery.previousElementSibling.append(controls);
     const step = () => (gallery.firstElementChild?.getBoundingClientRect().width || gallery.clientWidth) + parseFloat(getComputedStyle(gallery).gap || 0);
     const move = direction => gallery.scrollBy({left:step()*direction,behavior:reduceMotion?'instant':'smooth'});
     prev.onclick = () => move(-1);
