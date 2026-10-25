@@ -394,7 +394,11 @@ export class GitHubStore {
         method: 'POST', body: { base_tree: baseTree, tree: entries },
       });
       const commit = await this.#request(`${this.#repoPath}/git/commits`, {
-        method: 'POST', body: { message: 'Update portfolio content and images', tree: checkedSha(tree.sha), parents: [headSha] },
+        method: 'POST', body: {
+          message: 'Update portfolio content and images', tree: checkedSha(tree.sha), parents: [headSha],
+          author: { name: this.#config.owner, email: `${this.#config.owner}@users.noreply.github.com` },
+          committer: { name: this.#config.owner, email: `${this.#config.owner}@users.noreply.github.com` },
+        },
       });
       const commitSha = checkedSha(commit.sha);
       await this.#request(`${this.#repoPath}/git/refs/heads/main`, {
