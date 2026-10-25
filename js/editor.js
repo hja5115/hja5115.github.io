@@ -458,6 +458,7 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
   function keydown(event) {
     if (closed) return;
     if (minimized) {
+      if (document.querySelector('#image-viewer[open]')) return;
       if (event.key === 'Escape') {
         event.preventDefault();
         event.stopPropagation();
