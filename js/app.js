@@ -45,13 +45,11 @@ export function render(input) {
   const heroImage = asset(site.heroImage || projects[0]?.cover || projects[0]?.images[0]?.src);
   if (heroImage) { $('#hero-image').src = heroImage; $('#hero-image').alt = `${projects[0]?.title || ''} 게임 인터페이스`; }
   $('#hero-project-name').textContent = projects.find(p => p.images.some(i => i.src === site.heroImage))?.title || projects[0]?.title || 'SELECTED WORK';
-  $('#work-range').textContent = `01—${String(projects.length).padStart(2,'0')}`;
   $('.nav-count').textContent = String(projects.length).padStart(2,'0');
   galleryObservers.forEach(observer => observer.disconnect());
   galleryObservers = [];
   $('#project-list').innerHTML = projects.map(projectMarkup).join('');
   $('#project-rail').innerHTML = projects.map((p,i) => `<a href="#${h(p.id)}" aria-label="${h(p.title)}로 이동"><span class="rail-line"></span>${String(i+1).padStart(2,'0')}</a>`).join('');
-  $('#project-select').innerHTML = '<option value="">프로젝트 선택</option>' + projects.map(p => `<option value="${h(p.id)}">${h(p.title)}</option>`).join('');
   renderContact(site);
   bindGalleries();
   observeSections();
@@ -73,37 +71,39 @@ function projectMarkup(project, index) {
   const leadIndex = Math.max(0, project.images.findIndex(image => image.src === project.cover));
   return `<article class="project" id="${h(project.id)}" style="--project-accent:${accent}">
     <div class="project-heading reveal"><span class="project-number">${String(index+1).padStart(2,'0')}</span><div><div class="project-title-line"><h3>${h(project.title)}</h3>${project.genre ? `<span class="genre-label">${h(project.genre)}</span>` : ''}</div><p class="project-summary">${h(project.summary)}</p><div class="project-tags">${[...new Set([...project.tags,...project.tools])].map(tag => `<span>${h(tag)}</span>`).join('')}</div></div><div class="gallery-controls"><span class="gallery-counter" data-counter="${h(project.id)}">01 / ${String(project.images.length).padStart(2,'0')}</span><button class="icon-button" data-gallery-prev="${h(project.id)}" aria-label="${h(project.title)} 이전 이미지">←</button><button class="icon-button" data-gallery-next="${h(project.id)}" aria-label="${h(project.title)} 다음 이미지">→</button></div></div>
-    ${project.images[leadIndex] ? shotMarkup(project, project.images[leadIndex], leadIndex, true) : ''}
-    <div class="secondary-gallery-heading"><span>MORE SCREENS</span><span>${Math.max(0, project.images.length - 1)} SCREENS / 2 COLUMNS</span></div>
-    <div class="gallery reveal" data-gallery="${h(project.id)}" role="region" aria-label="${h(project.title)} 이미지 갤러리" tabindex="0">${project.images.map((image,i) => ({image,index:i})).filter(entry => entry.index !== leadIndex).map(entry => shotMarkup(project,entry.image,entry.index)).join('')}</div><div class="gallery-hint">다른 화면은 2열로 살펴보고, 좌우 스크롤로 더 볼 수 있습니다.</div>
+    <div class="gallery reveal" data-gallery="${h(project.id)}" role="region" aria-label="${h(project.title)} 이미지 갤러리. 대표 이미지와 두 줄의 추가 이미지, 좌우 방향키로 이동" tabindex="0">${project.images[leadIndex] ? shotMarkup(project, project.images[leadIndex], leadIndex, true) : ''}${project.images.map((image,i) => ({image,index:i})).filter(entry => entry.index !== leadIndex).map(entry => shotMarkup(project,entry.image,entry.index)).join('')}</div>
     <section class="project-process" aria-label="${h(project.title)} UX 설계 과정"><div class="process-intro reveal"><div><p class="eyebrow">BEHIND THE INTERFACE / UX</p><h4>화면을 설계한 관점</h4></div>${sheet ? `<a class="quiet-link" href="${h(sheet)}" target="_blank" rel="noopener noreferrer">전체 시트 보기 ↗</a>` : ''}</div><div class="process-grid">${project.process.map(step => `<article class="process-card reveal"><span class="process-step">${h(step.label)}</span><h5>${h(step.title)}</h5><p>${h(step.body)}</p>${asset(step.image) ? `<img src="${h(asset(step.image))}" alt="${h(step.title)} 설계 자료" loading="lazy">` : ''}</article>`).join('')}</div>${video ? `<a class="project-video" href="${h(video)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span> Unity / 인터랙션 작동 영상 <span aria-hidden="true">↗</span></a>` : ''}</section>
   </article>`;
 }
 
-function shotMarkup(project,image,index,lead=false){return `<figure class="shot-card${lead?' lead-shot reveal':''}" style="margin:0"><button class="shot-open" data-project="${h(project.id)}" data-image="${index}" aria-label="${h(image.title)} 이미지와 설명 확대 보기"><span class="shot-frame"><img src="${h(asset(image.src))}" alt="${h(image.alt || image.title)}" loading="lazy" decoding="async"${image.width?` width="${Number(image.width)}" height="${Number(image.height)}"`:''}></span><span class="shot-enlarge"><span class="enlarge-label">이미지 & 설명 보기</span><span aria-hidden="true">↗</span></span></button><figcaption class="shot-caption">${h(image.title)}<span>${lead?'MAIN SCREEN':h(image.kind||'UI')} / ${String(index+1).padStart(2,'0')}</span></figcaption></figure>`;}
+function shotMarkup(project,image,index,lead=false){return `<figure class="shot-card${lead?' lead-shot':''}" style="margin:0"><button class="shot-open" data-project="${h(project.id)}" data-image="${index}" aria-label="${h(image.title)} 이미지와 설명 확대 보기"><span class="shot-frame"><img src="${h(asset(image.src))}" alt="${h(image.alt || image.title)}" loading="lazy" decoding="async"${image.width?` width="${Number(image.width)}" height="${Number(image.height)}"`:''}></span><span class="shot-enlarge"><span class="enlarge-label">이미지 & 설명 보기</span><span aria-hidden="true">↗</span></span></button><figcaption class="shot-caption">${h(image.title)}<span>${lead?'MAIN SCREEN':h(image.kind||'UI')} / ${String(index+1).padStart(2,'0')}</span></figcaption></figure>`;}
 
 function renderContact(site) {
   const contact = safeExternalUrl(site.contactUrl);
   const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(site.email || '') ? site.email : '';
-  $('#contact-actions').innerHTML = `${contact ? `<a class="button button-primary" href="${h(contact)}" target="_blank" rel="noopener noreferrer">${h(site.contactLabel || '카카오톡으로 이야기하기')} <span aria-hidden="true">↗</span></a>` : ''}${email ? `<a class="contact-email" href="mailto:${h(email)}">${h(email)} ↗</a>` : ''}`;
+  $('#contact-actions').innerHTML = `${email ? `<a href="mailto:${h(email)}">${h(email)}</a>` : ''}${email && contact ? '<span class="contact-separator" aria-hidden="true">•</span>' : ''}${contact ? `<a href="${h(contact)}" target="_blank" rel="noopener noreferrer">카카오톡</a>` : ''}`;
   $('#copyright-year').textContent = new Date().getFullYear();
 }
 
 function bindGalleries() {
-  document.querySelectorAll('.lead-shot .shot-open').forEach(button => button.addEventListener('click', () => openViewer(button.dataset.project,Number(button.dataset.image),button)));
   document.querySelectorAll('.gallery').forEach(gallery => {
     const id = gallery.dataset.gallery;
     const prev = document.querySelector(`[data-gallery-prev="${CSS.escape(id)}"]`);
     const next = document.querySelector(`[data-gallery-next="${CSS.escape(id)}"]`);
     const count = document.querySelector(`[data-counter="${CSS.escape(id)}"]`);
-    const controls = prev.closest('.gallery-controls');
-    gallery.previousElementSibling.append(controls);
-    const step = () => (gallery.firstElementChild?.getBoundingClientRect().width || gallery.clientWidth) + parseFloat(getComputedStyle(gallery).gap || 0);
-    const move = direction => gallery.scrollBy({left:step()*direction,behavior:reduceMotion?'instant':'smooth'});
+    const columnStops = () => {
+      const left = gallery.getBoundingClientRect().left;
+      return [...new Set([...gallery.children].map(card => Math.round(card.getBoundingClientRect().left - left + gallery.scrollLeft)))].sort((a,b) => a-b);
+    };
+    const move = direction => {
+      const stops = columnStops(), position = gallery.scrollLeft, maximum = gallery.scrollWidth-gallery.clientWidth;
+      const target = direction > 0 ? stops.find(stop => stop > position + 3) ?? maximum : stops.findLast(stop => stop < position - 3) ?? 0;
+      gallery.scrollTo({left:Math.max(0,Math.min(maximum,target)),behavior:reduceMotion?'instant':'smooth'});
+    };
     prev.onclick = () => move(-1);
     next.onclick = () => move(1);
     gallery.addEventListener('keydown', event => { if (event.target !== gallery) return; if(event.key === 'ArrowRight' || event.key === 'ArrowLeft'){event.preventDefault();move(event.key === 'ArrowRight'?1:-1);} });
-    const update = () => { const maximum = gallery.scrollWidth-gallery.clientWidth;prev.disabled=gallery.scrollLeft<3;next.disabled=maximum<3 || gallery.scrollLeft>=maximum-3;const current=Math.min(gallery.children.length,Math.max(1,Math.round(gallery.scrollLeft/step())+1));count.textContent=`${String(current).padStart(2,'0')} / ${String(gallery.children.length).padStart(2,'0')}`; };
+    const update = () => { const maximum = gallery.scrollWidth-gallery.clientWidth;prev.disabled=gallery.scrollLeft<3;next.disabled=maximum<3 || gallery.scrollLeft>=maximum-3;const left=gallery.getBoundingClientRect().left;const current=Math.max(0,[...gallery.children].findIndex(card => card.getBoundingClientRect().right > left+8))+1;count.textContent=`${String(current).padStart(2,'0')} / ${String(gallery.children.length).padStart(2,'0')}`; };
     gallery.addEventListener('scroll', update,{passive:true});
     const observer = new ResizeObserver(update);observer.observe(gallery);galleryObservers.push(observer);update();
     gallery.querySelectorAll('.shot-open').forEach(button => button.addEventListener('click', () => openViewer(id,Number(button.dataset.image),button)));
@@ -117,7 +117,7 @@ function observeSections() {
     revealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');revealObserver.unobserve(entry.target);}}),{threshold:.07,rootMargin:'0px 0px -20px 0px'});
     document.querySelectorAll('.reveal').forEach(node=>revealObserver.observe(node));
   }
-  projectObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;document.querySelectorAll('.project-rail a').forEach(a=>{const active=a.hash===`#${entry.target.id}`;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});$('#project-select').value=entry.target.id;}),{rootMargin:'-15% 0px -65% 0px',threshold:0});
+  projectObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;document.querySelectorAll('.project-rail a').forEach(a=>{const active=a.hash===`#${entry.target.id}`;a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}),{rootMargin:'-15% 0px -65% 0px',threshold:0});
   document.querySelectorAll('.project').forEach(node=>projectObserver.observe(node));
 }
 
@@ -126,7 +126,6 @@ function bindNavigation() {
   menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'메뉴 닫기':'메뉴 열기');navigation.classList.toggle('open',open);});
   navigation.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','메뉴 열기');navigation.classList.remove('open');}));
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&navigation.classList.contains('open')){menu.click();menu.focus();}});
-  $('#project-select').addEventListener('change',e=>{const target=document.getElementById(e.target.value);target?.scrollIntoView({behavior:reduceMotion?'instant':'smooth',block:'start'});});
 }
 
 function openViewer(projectId,index,source) {

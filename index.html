@@ -18,12 +18,10 @@
 </head>
 <body>
   <canvas id="particle-field" aria-hidden="true"></canvas>
-  <div class="pointer-aura" aria-hidden="true"></div>
   <div class="cursor-ring" aria-hidden="true"></div>
   <div class="cursor-dot" aria-hidden="true"></div>
   <a class="skip-link" href="#projects">프로젝트로 바로가기</a>
   <header class="site-header" id="site-header">
-    <a class="wordmark" href="#home" aria-label="처음으로"><span class="brand-symbol" aria-hidden="true">J<span>.</span>A</span><span class="brand-name">Hong Jung Ah</span></a>
     <span class="header-discipline">GAME UI/UX <span>×</span> UNITY</span>
     <button class="mobile-menu" aria-label="메뉴 열기" aria-expanded="false" aria-controls="main-navigation"><span></span><span></span></button>
     <nav id="main-navigation" class="main-navigation" aria-label="주 메뉴"><a href="#projects">Projects<span class="nav-count">05</span></a><a href="#approach">Approach</a><a href="#contact">Contact <span aria-hidden="true">↗</span></a></nav>
@@ -44,15 +42,13 @@
         <div class="floating-label"><span class="cross-mark" aria-hidden="true">+</span><div>From interface<br><strong>to interaction.</strong></div></div>
         <div class="art-coordinate">HJA / PORTFOLIO<br>DESIGNED FOR PLAY</div>
       </div>
-      <div class="hero-bottom"><span>SELECTED WORKS <span id="work-range">01—05</span></span><a href="#projects">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a><span class="hero-year">PORTFOLIO / 2026</span></div>
     </section>
-    <section class="work-section section-shell" id="projects" aria-labelledby="projects-title">
-      <div class="section-heading reveal"><div><p class="eyebrow">A COLLECTION OF GAME INTERFACES</p><h2 id="projects-title">Selected works<span class="heading-dot">.</span></h2></div><p>화면에서 시작해<br>플레이 경험으로 이어지는 작업들.</p></div>
-      <div class="project-jump"><label for="project-select">프로젝트 바로가기</label><select id="project-select"><option value="">프로젝트 선택</option></select><span aria-hidden="true">↓</span></div>
+    <section class="work-section section-shell" id="projects" aria-label="프로젝트">
       <div id="project-list"><p class="loading-state" role="status">프로젝트를 불러오고 있습니다.</p></div>
     </section>
     <section class="approach section-shell reveal" id="approach" aria-labelledby="approach-title"><div class="approach-heading"><p class="eyebrow">THE WAY I DESIGN</p><h2 id="approach-title">보기 좋게.<br>이해하기 쉽게.<br><span>플레이하기 편하게.</span></h2></div><div class="approach-list"><article><span>01 / UI</span><h3>세계관을 담은 시각 언어</h3><p>타이포그래피, 컬러, 아이콘이 하나의 게임 안에서 같은 언어로 이야기하도록 구성합니다.</p></article><article><span>02 / UX</span><h3>다음 행동이 보이는 흐름</h3><p>플레이어가 지금 알아야 하는 정보와 다음에 할 수 있는 행동을 중심으로 화면을 정리합니다.</p></article><article><span>03 / UNITY</span><h3>상호작용까지 이어지는 디자인</h3><p>버튼의 상태, 화면 전환, 피드백의 타이밍까지. UI와 Unity를 연결하는 작업을 지향합니다.</p></article></div></section>
-    <section class="contact section-shell reveal" id="contact" aria-labelledby="contact-title"><p class="eyebrow"><span class="live-dot"></span> LET’S MAKE SOMETHING PLAYABLE</p><h2 id="contact-title">다음 플레이를<br><span>함께 만들어볼까요?</span></h2><div class="contact-actions" id="contact-actions"></div><div class="contact-footer"><a class="wordmark" href="#home"><span class="brand-symbol" aria-hidden="true">J<span>.</span>A</span><span class="brand-name">Hong Jung Ah</span></a><span>© <span id="copyright-year">2026</span> Hong Jung Ah</span><a href="#home">BACK TO TOP ↑</a></div></section>
+    <section class="contact section-shell reveal" id="contact" aria-labelledby="contact-title"><h2 id="contact-title">CONTACTS</h2><p class="contact-actions" id="contact-actions"></p></section>
+    <footer class="site-footer section-shell"><span>© <span id="copyright-year">2026</span> Hong Jung Ah</span></footer>
   </main>
   <dialog class="image-viewer" id="image-viewer" aria-labelledby="viewer-title"><div class="viewer-panel"><div class="viewer-toolbar"><span class="viewer-project" id="viewer-project"></span><div><span class="viewer-count" id="viewer-count"></span><button class="icon-button" id="viewer-close" aria-label="확대 보기 닫기">✕</button></div></div><div class="viewer-layout"><div class="viewer-visual" id="viewer-visual"><img id="viewer-image" alt=""><div class="viewer-image-controls"><button class="icon-button" id="viewer-prev" aria-label="이전 이미지">←</button><span>← → 키로 이동</span><button class="icon-button" id="viewer-next" aria-label="다음 이미지">→</button></div></div><div class="viewer-description"><span class="eyebrow" id="viewer-kind"></span><h2 id="viewer-title"></h2><div class="viewer-description-body" id="viewer-description"></div><dl class="viewer-metadata" id="viewer-metadata"></dl><p class="viewer-note">게임의 디테일을 천천히 살펴보세요.</p></div></div></div></dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
