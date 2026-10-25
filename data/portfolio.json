@@ -14,98 +14,124 @@
   },
   "projects": [
     {
-      "id": "papershot",
-      "title": "PAPER SHOT",
-      "genre": "서브컬처 · TPS",
-      "summary": "캐릭터의 개성을 중심에 두고, 로비에서 전투와 성장 콘텐츠로 이어지는 슈팅 게임 UI를 구성한 프로젝트입니다.",
+      "id": "project-slot-01",
+      "title": "",
+      "genre": "",
+      "summary": "",
+      "role": "",
+      "tools": [],
+      "tags": [],
+      "accent": "#D14646",
+      "cover": "",
+      "images": [],
+      "process": [],
+      "videoUrl": "",
+      "fullSheet": "",
+      "overview": "",
+      "engineImage": "",
+      "resourceImage": ""
+    },
+    {
+      "id": "project-slot-02",
+      "title": "",
+      "genre": "",
+      "summary": "",
+      "role": "",
+      "tools": [],
+      "tags": [],
+      "accent": "#D14646",
+      "cover": "",
+      "images": [],
+      "process": [],
+      "videoUrl": "",
+      "fullSheet": "",
+      "overview": "",
+      "engineImage": "",
+      "resourceImage": ""
+    },
+    {
+      "id": "dreamy-ocean",
+      "title": "DREAMY OCEAN",
+      "genre": "캐주얼 · 퍼즐",
+      "summary": "밝은 바다 테마 안에서 퍼즐 플레이, 꾸미기 상점, 레벨 선택을 일관된 둥근 UI로 구성한 프로젝트입니다.",
       "role": "",
       "tools": [],
       "tags": [
         "UI Design",
-        "TPS",
-        "PC",
+        "Puzzle",
+        "Mobile",
         "Unity"
       ],
-      "accent": "#4F7FFF",
-      "cover": "assets/papershot-cover.webp",
+      "accent": "#39CCDA",
+      "cover": "assets/dreamy-ocean-cover.webp",
       "images": [
         {
           "id": "lobby",
-          "src": "assets/papershot-lobby.webp",
-          "alt": "PAPERSHOT 로비",
+          "src": "assets/dreamy-ocean-lobby.webp",
+          "alt": "DREAMY-OCEAN 로비",
           "title": "로비",
-          "description": "PLAY를 첫 메뉴로 강조하고, 주요 콘텐츠와 보조 메뉴를 좌측에 모은 구성입니다.",
+          "description": "중앙의 수중 공간을 넓게 보여주면서 가장자리에 재화, 이벤트와 주요 기능을 배치합니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 810
+          "height": 772
         },
         {
-          "id": "inventory",
-          "src": "assets/papershot-inventory.webp",
-          "alt": "PAPERSHOT 캐릭터 인벤토리",
-          "title": "캐릭터 인벤토리",
-          "description": "중앙의 캐릭터 미리보기와 좌측 꾸미기 항목, 우측 스킨 정보를 구분합니다.",
+          "id": "play-select",
+          "src": "assets/dreamy-ocean-play-select.webp",
+          "alt": "DREAMY-OCEAN 레벨 선택",
+          "title": "레벨 선택",
+          "description": "목표와 보조 아이템을 확인한 뒤 하단 Play 버튼으로 진입하는 화면입니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 810
+          "height": 765
         },
         {
-          "id": "ingame",
-          "src": "assets/papershot-ingame.webp",
-          "alt": "PAPERSHOT 인게임 HUD",
-          "title": "인게임 HUD",
-          "description": "상단의 전투 목표와 하단의 체력·스킬·탄약 정보를 전장 화면의 가장자리에 배치합니다.",
+          "id": "puzzle",
+          "src": "assets/dreamy-ocean-puzzle.webp",
+          "alt": "DREAMY-OCEAN 퍼즐 플레이",
+          "title": "퍼즐 플레이",
+          "description": "중앙 보드와 좌측 목표·잔여 횟수, 우측 보조 아이템의 영역을 분리합니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 810
+          "height": 780
         },
         {
-          "id": "battle-pass",
-          "src": "assets/papershot-battle-pass.webp",
-          "alt": "PAPERSHOT 배틀 패스",
-          "title": "배틀 패스",
-          "description": "프리미엄과 무료 보상을 하나의 진행 트랙 안에서 구분하고, 선택 보상의 내용을 우측에 표시합니다.",
+          "id": "shop",
+          "src": "assets/dreamy-ocean-shop.webp",
+          "alt": "DREAMY-OCEAN 꾸미기 상점",
+          "title": "꾸미기 상점",
+          "description": "상품을 카드 그리드로 정리하고 카테고리, 가격, 잠금 조건과 보유 재화를 함께 보여줍니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 810
-        },
-        {
-          "id": "hud-detail",
-          "src": "assets/uploads/papershot-hud-detail.webp",
-          "title": "전투 HUD 디테일",
-          "alt": "PAPER SHOT 전투 HUD의 체력·스킬·탄약 정보",
-          "description": "좌측의 체력·보호막, 중앙의 주요 스킬, 우측의 무기·탄약과 입력 키를 분리해 표시한 전투 HUD입니다.",
-          "kind": "UI",
-          "width": 1440,
-          "height": 350
+          "height": 780
         }
       ],
       "process": [
         {
           "id": "lobby",
           "label": "01 / 화면 목표",
-          "title": "전투 진입을 먼저 보이게",
-          "body": "로비는 캐릭터 비주얼을 넓게 활용하면서 PLAY에 노란 강조색을 적용해 주요 진입점을 드러냅니다.",
-          "image": "assets/papershot-lobby.webp"
+          "title": "바다 테마와 플레이 진입",
+          "body": "수중 공간과 캐릭터를 중심에 두고, 하단의 레벨 버튼과 주요 기능 버튼을 큰 원형 요소로 구성합니다.",
+          "image": "assets/dreamy-ocean-lobby.webp"
         },
         {
-          "id": "inventory",
+          "id": "puzzle",
           "label": "02 / 정보 구조",
-          "title": "선택 목록과 미리보기 분리",
-          "body": "꾸미기 항목, 캐릭터 미리보기, 선택 스킨의 이름과 설명을 나누어 탐색 영역과 확인 영역을 구분합니다.",
-          "image": "assets/papershot-inventory.webp"
+          "title": "보드 주변의 역할 분리",
+          "body": "퍼즐 보드를 중앙에 놓고 목표 정보와 보조 도구를 좌우로 나누어 플레이 중 확인할 정보를 정리합니다.",
+          "image": "assets/dreamy-ocean-puzzle.webp"
         },
         {
-          "id": "battle-pass",
+          "id": "shop",
           "label": "03 / 인터랙션과 상태",
-          "title": "보상의 진행 상태 구분",
-          "body": "트랙의 체크 표시, 잠금 표시, FREE와 PREMIUM 라벨로 획득 여부와 보상 종류를 시각적으로 구분합니다.",
-          "image": "assets/papershot-battle-pass.webp"
+          "title": "구매와 잠금 상태 표현",
+          "body": "상품 카드의 가격 표기와 해제 조건 문구, 카테고리 탭으로 상점의 선택·탐색 상태를 구분합니다.",
+          "image": "assets/dreamy-ocean-shop.webp"
         }
       ],
       "videoUrl": "",
-      "fullSheet": "assets/papershot-full.webp",
-      "overview": "캐릭터를 중심에 둔 화면 안에서 플레이 진입, 꾸미기 탐색, 보상 확인이 자연스럽게 이어지도록 정보의 우선순위를 정했습니다. 주요 행동은 색으로 드러내고, 탐색 목록과 확인 영역을 나누며 획득·잠금 상태를 같은 시각 규칙으로 구분하는 데 초점을 맞췄습니다.",
+      "fullSheet": "assets/dreamy-ocean-full.webp",
+      "overview": "바다 테마의 분위기를 유지하면서 플레이 진입, 퍼즐 진행, 상점 탐색에 필요한 정보의 역할을 구분했습니다. 주요 진입 버튼은 크게 드러내고 퍼즐의 목표와 도구는 보드 주변에 나누어 배치했으며, 상점에서는 가격과 해제 조건으로 선택 가능한 상태를 확인하도록 구성했습니다.",
       "engineImage": "",
       "resourceImage": ""
     },
@@ -272,88 +298,98 @@
       "resourceImage": ""
     },
     {
-      "id": "dreamy-ocean",
-      "title": "DREAMY OCEAN",
-      "genre": "캐주얼 · 퍼즐",
-      "summary": "밝은 바다 테마 안에서 퍼즐 플레이, 꾸미기 상점, 레벨 선택을 일관된 둥근 UI로 구성한 프로젝트입니다.",
+      "id": "papershot",
+      "title": "PAPER SHOT",
+      "genre": "서브컬처 · TPS",
+      "summary": "캐릭터의 개성을 중심에 두고, 로비에서 전투와 성장 콘텐츠로 이어지는 슈팅 게임 UI를 구성한 프로젝트입니다.",
       "role": "",
       "tools": [],
       "tags": [
         "UI Design",
-        "Puzzle",
-        "Mobile",
+        "TPS",
+        "PC",
         "Unity"
       ],
-      "accent": "#39CCDA",
-      "cover": "assets/dreamy-ocean-cover.webp",
+      "accent": "#4F7FFF",
+      "cover": "assets/papershot-cover.webp",
       "images": [
         {
           "id": "lobby",
-          "src": "assets/dreamy-ocean-lobby.webp",
-          "alt": "DREAMY-OCEAN 로비",
+          "src": "assets/papershot-lobby.webp",
+          "alt": "PAPERSHOT 로비",
           "title": "로비",
-          "description": "중앙의 수중 공간을 넓게 보여주면서 가장자리에 재화, 이벤트와 주요 기능을 배치합니다.",
+          "description": "PLAY를 첫 메뉴로 강조하고, 주요 콘텐츠와 보조 메뉴를 좌측에 모은 구성입니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 772
+          "height": 810
         },
         {
-          "id": "play-select",
-          "src": "assets/dreamy-ocean-play-select.webp",
-          "alt": "DREAMY-OCEAN 레벨 선택",
-          "title": "레벨 선택",
-          "description": "목표와 보조 아이템을 확인한 뒤 하단 Play 버튼으로 진입하는 화면입니다.",
+          "id": "inventory",
+          "src": "assets/papershot-inventory.webp",
+          "alt": "PAPERSHOT 캐릭터 인벤토리",
+          "title": "캐릭터 인벤토리",
+          "description": "중앙의 캐릭터 미리보기와 좌측 꾸미기 항목, 우측 스킨 정보를 구분합니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 765
+          "height": 810
         },
         {
-          "id": "puzzle",
-          "src": "assets/dreamy-ocean-puzzle.webp",
-          "alt": "DREAMY-OCEAN 퍼즐 플레이",
-          "title": "퍼즐 플레이",
-          "description": "중앙 보드와 좌측 목표·잔여 횟수, 우측 보조 아이템의 영역을 분리합니다.",
+          "id": "ingame",
+          "src": "assets/papershot-ingame.webp",
+          "alt": "PAPERSHOT 인게임 HUD",
+          "title": "인게임 HUD",
+          "description": "상단의 전투 목표와 하단의 체력·스킬·탄약 정보를 전장 화면의 가장자리에 배치합니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 780
+          "height": 810
         },
         {
-          "id": "shop",
-          "src": "assets/dreamy-ocean-shop.webp",
-          "alt": "DREAMY-OCEAN 꾸미기 상점",
-          "title": "꾸미기 상점",
-          "description": "상품을 카드 그리드로 정리하고 카테고리, 가격, 잠금 조건과 보유 재화를 함께 보여줍니다.",
+          "id": "battle-pass",
+          "src": "assets/papershot-battle-pass.webp",
+          "alt": "PAPERSHOT 배틀 패스",
+          "title": "배틀 패스",
+          "description": "프리미엄과 무료 보상을 하나의 진행 트랙 안에서 구분하고, 선택 보상의 내용을 우측에 표시합니다.",
           "kind": "UI",
           "width": 1440,
-          "height": 780
+          "height": 810
+        },
+        {
+          "id": "hud-detail",
+          "src": "assets/uploads/papershot-hud-detail.webp",
+          "title": "전투 HUD 디테일",
+          "alt": "PAPER SHOT 전투 HUD의 체력·스킬·탄약 정보",
+          "description": "좌측의 체력·보호막, 중앙의 주요 스킬, 우측의 무기·탄약과 입력 키를 분리해 표시한 전투 HUD입니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 350
         }
       ],
       "process": [
         {
           "id": "lobby",
           "label": "01 / 화면 목표",
-          "title": "바다 테마와 플레이 진입",
-          "body": "수중 공간과 캐릭터를 중심에 두고, 하단의 레벨 버튼과 주요 기능 버튼을 큰 원형 요소로 구성합니다.",
-          "image": "assets/dreamy-ocean-lobby.webp"
+          "title": "전투 진입을 먼저 보이게",
+          "body": "로비는 캐릭터 비주얼을 넓게 활용하면서 PLAY에 노란 강조색을 적용해 주요 진입점을 드러냅니다.",
+          "image": "assets/papershot-lobby.webp"
         },
         {
-          "id": "puzzle",
+          "id": "inventory",
           "label": "02 / 정보 구조",
-          "title": "보드 주변의 역할 분리",
-          "body": "퍼즐 보드를 중앙에 놓고 목표 정보와 보조 도구를 좌우로 나누어 플레이 중 확인할 정보를 정리합니다.",
-          "image": "assets/dreamy-ocean-puzzle.webp"
+          "title": "선택 목록과 미리보기 분리",
+          "body": "꾸미기 항목, 캐릭터 미리보기, 선택 스킨의 이름과 설명을 나누어 탐색 영역과 확인 영역을 구분합니다.",
+          "image": "assets/papershot-inventory.webp"
         },
         {
-          "id": "shop",
+          "id": "battle-pass",
           "label": "03 / 인터랙션과 상태",
-          "title": "구매와 잠금 상태 표현",
-          "body": "상품 카드의 가격 표기와 해제 조건 문구, 카테고리 탭으로 상점의 선택·탐색 상태를 구분합니다.",
-          "image": "assets/dreamy-ocean-shop.webp"
+          "title": "보상의 진행 상태 구분",
+          "body": "트랙의 체크 표시, 잠금 표시, FREE와 PREMIUM 라벨로 획득 여부와 보상 종류를 시각적으로 구분합니다.",
+          "image": "assets/papershot-battle-pass.webp"
         }
       ],
       "videoUrl": "",
-      "fullSheet": "assets/dreamy-ocean-full.webp",
-      "overview": "바다 테마의 분위기를 유지하면서 플레이 진입, 퍼즐 진행, 상점 탐색에 필요한 정보의 역할을 구분했습니다. 주요 진입 버튼은 크게 드러내고 퍼즐의 목표와 도구는 보드 주변에 나누어 배치했으며, 상점에서는 가격과 해제 조건으로 선택 가능한 상태를 확인하도록 구성했습니다.",
+      "fullSheet": "assets/papershot-full.webp",
+      "overview": "캐릭터를 중심에 둔 화면 안에서 플레이 진입, 꾸미기 탐색, 보상 확인이 자연스럽게 이어지도록 정보의 우선순위를 정했습니다. 주요 행동은 색으로 드러내고, 탐색 목록과 확인 영역을 나누며 획득·잠금 상태를 같은 시각 규칙으로 구분하는 데 초점을 맞췄습니다.",
       "engineImage": "",
       "resourceImage": ""
     },

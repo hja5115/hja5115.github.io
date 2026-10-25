@@ -43,14 +43,15 @@ export function render(input) {
   roleLabel.replaceChildren(statusDot, document.createTextNode(engineLabel(site.role)));
   $('#hero-title').replaceChildren(...headlineNodes(site.headline));
   $('#hero-intro').textContent = site.intro;
-  const heroImage = asset(site.heroImage || projects[0]?.cover || projects[0]?.images[0]?.src);
-  if (heroImage) { $('#hero-image').src = heroImage; $('#hero-image').alt = `${projects[0]?.title || ''} 게임 인터페이스`; }
-  $('#hero-project-name').textContent = projects.find(p => p.images.some(i => i.src === site.heroImage))?.title || projects[0]?.title || 'SELECTED WORK';
+  const heroProject = projects.find(p => p.images.some(i => i.src === site.heroImage)) || projects.find(p => p.images.length);
+  const heroImage = asset(site.heroImage || heroProject?.cover || heroProject?.images[0]?.src);
+  if (heroImage) { $('#hero-image').src = heroImage; $('#hero-image').alt = `${heroProject?.title || ''} 게임 인터페이스`; }
+  $('#hero-project-name').textContent = heroProject?.title || 'SELECTED WORK';
   $('.nav-count').textContent = String(projects.length).padStart(2,'0');
   galleryObservers.forEach(observer => observer.disconnect());
   galleryObservers = [];
   $('#project-list').innerHTML = projects.map(projectMarkup).join('');
-  $('#project-rail').innerHTML = projects.map((p,i) => `<a href="#${h(p.id)}" aria-label="${h(p.title)}로 이동"><span class="rail-line"></span>${String(i+1).padStart(2,'0')}</a>`).join('');
+  $('#project-rail').innerHTML = projects.map((p,i) => `<a href="#${h(p.id)}" aria-label="${h(p.title || `${i+1}번 프로젝트 빈 자리`)}로 이동"><span class="rail-line"></span>${String(i+1).padStart(2,'0')}</a>`).join('');
   renderContact(site);
   bindGalleries();
   observeSections();
@@ -66,6 +67,9 @@ function headlineNodes(text) {
 }
 
 function projectMarkup(project, index) {
+  if (!project.title.trim() && !project.images.length) {
+    return `<article class="project project-empty" id="${h(project.id)}" aria-label="${index+1}번 프로젝트 빈 자리"><div class="project-heading"><span class="project-number">${String(index+1).padStart(2,'0')}</span></div><div class="project-empty-panel" aria-hidden="true"></div></article>`;
+  }
   const accent = /^#[\da-f]{6}$/i.test(project.accent) ? project.accent : '#b0e2c3';
   const leadIndex = Math.max(0, project.images.findIndex(image => image.src === project.cover));
   return `<article class="project" id="${h(project.id)}" style="--project-accent:${accent}">

@@ -114,3 +114,6 @@ body{font-family:"Noto Sans KR","Segoe UI","Malgun Gothic",sans-serif}
 .material-footer a:hover{color:var(--accent)}
 @media(max-width:760px){.project-materials{grid-template-columns:1fr;gap:14px}.material-placeholder{min-height:180px}.project-overview{line-height:1.9;margin-bottom:20px}.material-image{height:auto;aspect-ratio:16/10}}
 @media(hover:none){.material-image .shot-enlarge{opacity:1;transform:none}}
+.project-empty{padding-block:30px}
+.project-empty .project-heading{margin-bottom:16px}
+.project-empty-panel{height:180px;margin-left:var(--project-inset);border:1px solid var(--line);border-radius:14px;background:#ffffff02}
