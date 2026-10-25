@@ -67,6 +67,16 @@
           "kind": "UI",
           "width": 1440,
           "height": 810
+        },
+        {
+          "id": "hud-detail",
+          "src": "assets/uploads/papershot-hud-detail.webp",
+          "title": "전투 HUD 디테일",
+          "alt": "PAPER SHOT 전투 HUD의 체력·스킬·탄약 정보",
+          "description": "좌측의 체력·보호막, 중앙의 주요 스킬, 우측의 무기·탄약과 입력 키를 분리해 표시한 전투 HUD입니다.",
+          "kind": "UI",
+          "width": 1440,
+          "height": 350
         }
       ],
       "process": [
