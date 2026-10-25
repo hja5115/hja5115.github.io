@@ -67,12 +67,11 @@ function headlineNodes(text) {
 
 function projectMarkup(project, index) {
   const accent = /^#[\da-f]{6}$/i.test(project.accent) ? project.accent : '#b0e2c3';
-  const video = safeExternalUrl(project.videoUrl);
   const leadIndex = Math.max(0, project.images.findIndex(image => image.src === project.cover));
   return `<article class="project" id="${h(project.id)}" style="--project-accent:${accent}">
     <div class="project-heading reveal"><span class="project-number">${String(index+1).padStart(2,'0')}</span><div><div class="project-title-line"><h3>${h(project.title)}</h3>${project.genre ? `<span class="genre-label">${h(project.genre)}</span>` : ''}</div><p class="project-summary">${h(project.summary)}</p><div class="project-tags">${[...new Set([...project.tags,...project.tools])].map(tag => `<span>${h(tag)}</span>`).join('')}</div></div><div class="gallery-controls"><span class="gallery-counter" data-counter="${h(project.id)}">01 / ${String(project.images.length).padStart(2,'0')}</span><button class="icon-button" data-gallery-prev="${h(project.id)}" aria-label="${h(project.title)} 이전 이미지">←</button><button class="icon-button" data-gallery-next="${h(project.id)}" aria-label="${h(project.title)} 다음 이미지">→</button></div></div>
     <div class="gallery reveal" data-gallery="${h(project.id)}" role="region" aria-label="${h(project.title)} 이미지 갤러리. 대표 이미지와 두 줄의 추가 이미지, 좌우 방향키로 이동" tabindex="0">${project.images[leadIndex] ? shotMarkup(project, project.images[leadIndex], leadIndex, true) : ''}${project.images.map((image,i) => ({image,index:i})).filter(entry => entry.index !== leadIndex).map(entry => shotMarkup(project,entry.image,entry.index)).join('')}</div>
-    <section class="project-process" aria-label="${h(project.title)} UX 설계 과정"><div class="process-intro reveal"><div><p class="eyebrow">BEHIND THE INTERFACE / UX</p><h4>화면을 설계한 관점</h4></div></div><div class="process-grid">${project.process.map(step => `<article class="process-card reveal"><span class="process-step">${h(step.label)}</span><h5>${h(step.title)}</h5><p>${h(step.body)}</p>${asset(step.image) ? `<img src="${h(asset(step.image))}" alt="${h(step.title)} 설계 자료" loading="lazy">` : ''}</article>`).join('')}</div>${video ? `<a class="project-video" href="${h(video)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span> 엔진 / 인터랙션 작동 영상 <span aria-hidden="true">↗</span></a>` : ''}</section>
+    ${projectDetailsMarkup(project)}
   </article>`;
 }
 
@@ -85,7 +84,37 @@ function renderContact(site) {
   $('#copyright-year').textContent = new Date().getFullYear();
 }
 
+function projectOverview(project) {
+  return typeof project.overview === 'string' ? project.overview : project.process.map(step => step.body).filter(Boolean).join(' ');
+}
+
+function projectDetailsMarkup(project) {
+  const overview = projectOverview(project);
+  return `<section class="project-process project-details reveal" aria-label="${h(project.title)} 설계 요약과 제작 자료">
+    ${overview ? `<p class="project-overview">${h(overview)}</p>` : ''}
+    <div class="project-materials">${materialMarkup(project,'engineImage')}${materialMarkup(project,'resourceImage')}</div>
+  </section>`;
+}
+
+function materialMarkup(project,field) {
+  const engine = field === 'engineImage';
+  const title = engine ? '엔진 적용 자료' : '리소스 정리';
+  const src = asset(project[field]);
+  const video = engine ? safeExternalUrl(project.videoUrl) : '';
+  const symbol = engine ? '▷' : '⊞';
+  const media = src ? `<button class="shot-open material-image" data-material="${field}" data-project="${h(project.id)}" aria-label="${h(project.title)} ${title} 확대 보기"><span class="shot-frame"><img src="${h(src)}" alt="${h(project.title)} ${title}" loading="lazy"></span><span class="shot-enlarge"><span class="enlarge-label">확대 보기</span><span aria-hidden="true">↗</span></span></button>` : `<div class="material-placeholder"><span class="material-symbol" aria-hidden="true">${symbol}</span><h4>${title}</h4><p>${engine ? '스크린샷 · GIF · 작동 영상' : 'UI 요소 · 아이콘 · 제작 리소스'}</p><span class="material-status">자료 준비 중</span></div>`;
+  return `<div class="project-material${src?' has-media':''}">${media}${src || video ? `<div class="material-footer"><span>${title}</span>${video ? `<a href="${h(video)}" target="_blank" rel="noopener noreferrer">작동 영상 보기 ↗</a>` : ''}</div>` : ''}</div>`;
+}
+
 function bindGalleries() {
+  document.querySelectorAll('[data-material]').forEach(button => button.addEventListener('click', () => {
+    const project = documentData.projects.find(item => item.id === button.dataset.project);
+    const field = button.dataset.material;
+    if (!project || !['engineImage','resourceImage'].includes(field) || !asset(project[field])) return;
+    const title = field === 'engineImage' ? '엔진 적용 자료' : '리소스 정리';
+    const image = {src:project[field],title,alt:`${project.title} ${title}`,kind:field === 'engineImage'?'Unity':'UI',description:projectOverview(project)};
+    showViewer({project:{...project,images:[image]},index:0},button);
+  }));
   document.querySelectorAll('.gallery').forEach(gallery => {
     const id = gallery.dataset.gallery;
     const prev = document.querySelector(`[data-gallery-prev="${CSS.escape(id)}"]`);
@@ -131,7 +160,11 @@ function bindNavigation() {
 function openViewer(projectId,index,source) {
   const project=documentData.projects.find(p=>p.id===projectId);
   if(!project?.images[index])return;
-  viewerState={project,index};lastFocus=source || document.activeElement;
+  showViewer({project,index},source);
+}
+
+function showViewer(state,source) {
+  viewerState=state;lastFocus=source || document.activeElement;
   const dialog=$('#image-viewer');clearTimeout(closeTimer);dialog.classList.remove('closing');
   fillViewer();dialog.showModal();document.body.classList.add('modal-open');dialog.scrollTop=0;
   $('#viewer-close').focus({preventScroll:true});
@@ -164,7 +197,7 @@ function bindEditor(){
     try{
       if(!document.querySelector('link[data-editor-style]')){const link=document.createElement('link');link.rel='stylesheet';link.href='editor.css';link.dataset.editorStyle='true';document.head.append(link);}
       const {openEditor}=await import('./editor.js');
-      await openEditor({document:structuredClone(canonicalData),config:deployment,onPreview:(data,options={})=>{if(options.saved)canonicalData=normalizeDocument(data);previewAssets=new Map((options.uploads||[]).map(upload=>[upload.path,`data:image/webp;base64,${upload.base64}`]));render(data);},onClose:()=>{previewAssets.clear();render(canonicalData);editorOpening=false;}});
+      await openEditor({document:structuredClone(canonicalData),config:deployment,onPreview:(data,options={})=>{if(options.saved)canonicalData=normalizeDocument(data);previewAssets=new Map((options.uploads||[]).map(upload=>[upload.path,`data:${upload.path.toLowerCase().endsWith('.gif')?'image/gif':'image/webp'};base64,${upload.base64}`]));render(data);},onClose:()=>{previewAssets.clear();render(canonicalData);editorOpening=false;}});
     }catch(error){editorOpening=false;showToast(`편집기를 열지 못했습니다. ${error.message}`);}
   });
 }

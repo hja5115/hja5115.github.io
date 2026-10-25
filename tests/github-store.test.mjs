@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { prepareUpload } from '../js/editor.js';
 import {
   GitHubStore,
   validatePortfolioDocument,
@@ -20,6 +21,7 @@ const dataBlob = 'e'.repeat(40);
 const newTree = 'f'.repeat(40);
 const newCommit = '1'.repeat(40);
 const png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aP3sAAAAASUVORK5CYII=';
+const gif = 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
 function documentFixture() {
   return {
@@ -409,4 +411,48 @@ test('Contents write permission failure stops before publication and keeps the c
   assert.equal(store.sha, oldBlob);
   assert.ok(mock.calls.every((call) => call.method !== 'PATCH'));
   mock.done();
+});
+
+test('optional project overview and material paths round-trip while old documents remain valid', async () => {
+  validatePortfolioDocument(documentFixture());
+  const document = documentFixture();
+  Object.assign(document.projects[0], {
+    overview: '선택 목록과 미리보기를 나누어 정보를 비교하도록 구성했습니다.',
+    engineImage: 'assets/chronos/engine.gif', resourceImage: 'assets/chronos/resources.webp',
+  });
+  const mock = mockFetch([...authSteps(), loadStep(), ...saveSteps({ document })]);
+  const store = new GitHubStore(config, mock);
+  await store.authenticate(token);
+  await store.load();
+  const result = await store.save(document);
+  assert.deepEqual(result.document, document);
+  mock.done();
+});
+
+test('project materials reject remote and executable paths and bound summary size', () => {
+  for (const key of ['engineImage', 'resourceImage']) {
+    for (const path of ['../secret.png', 'assets/../secret.png', 'https://example.com/screen.png', 'js/app.js', 'assets/a.svg']) {
+      const document = documentFixture();
+      document.projects[0][key] = path;
+      assert.throws(() => validatePortfolioDocument(document), { code: 'INVALID_DATA' });
+    }
+  }
+  for (const overview of ['x'.repeat(20001), { text: 'invalid' }]) {
+    const document = documentFixture();
+    document.projects[0].overview = overview;
+    assert.throws(() => validatePortfolioDocument(document), { code: 'INVALID_DATA' });
+  }
+});
+
+test('GIF preparation retains original bytes and extension without raster conversion', async () => {
+  const bytes = Uint8Array.from(atob(gif), char => char.charCodeAt(0));
+  const upload = await prepareUpload(new Blob([bytes], { type: 'image/gif' }));
+  assert.match(upload.path, /^assets\/uploads\/image-[A-Za-z0-9-]+\.gif$/);
+  assert.equal(upload.base64, gif);
+  assert.deepEqual(validateUploads([upload]), [upload]);
+});
+
+test('GIF preparation rejects oversized and disguised files before queuing', async () => {
+  await assert.rejects(() => prepareUpload(new Blob([new Uint8Array(2 * 1024 * 1024 + 1)], { type: 'image/gif' })), /2MB/);
+  await assert.rejects(() => prepareUpload(new Blob(['not a GIF'], { type: 'image/gif' })), /올바른 GIF/);
 });

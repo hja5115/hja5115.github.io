@@ -104,7 +104,10 @@
         }
       ],
       "videoUrl": "",
-      "fullSheet": "assets/papershot-full.webp"
+      "fullSheet": "assets/papershot-full.webp",
+      "overview": "캐릭터를 중심에 둔 화면 안에서 플레이 진입, 꾸미기 탐색, 보상 확인이 자연스럽게 이어지도록 정보의 우선순위를 정했습니다. 주요 행동은 색으로 드러내고, 탐색 목록과 확인 영역을 나누며 획득·잠금 상태를 같은 시각 규칙으로 구분하는 데 초점을 맞췄습니다.",
+      "engineImage": "",
+      "resourceImage": ""
     },
     {
       "id": "chronos",
@@ -187,7 +190,10 @@
         }
       ],
       "videoUrl": "",
-      "fullSheet": "assets/chronos-full.webp"
+      "fullSheet": "assets/chronos-full.webp",
+      "overview": "캐릭터 비주얼을 유지하면서도 탐색, 매칭, 선택에 필요한 정보를 구분해 볼 수 있도록 화면의 역할을 나누었습니다. 기본 프레임은 금색으로 통일하고 현재 선택에는 청록색 강조를 적용해, 캐릭터 정보와 진행 상태를 확인하는 흐름에 일관된 시각 기준을 두었습니다.",
+      "engineImage": "",
+      "resourceImage": ""
     },
     {
       "id": "biobeam",
@@ -260,7 +266,10 @@
         }
       ],
       "videoUrl": "",
-      "fullSheet": "assets/biobeam-full.webp"
+      "fullSheet": "assets/biobeam-full.webp",
+      "overview": "모드와 영웅을 고르는 과정에서 비교에 필요한 정보가 같은 위치와 순서로 읽히도록 화면을 구성했습니다. 선택 대상의 미리보기와 목록, 조작 안내를 분리하고 현재 포커스와 설정값은 서로 다른 색과 표식으로 표현해 탐색과 확인의 역할을 구분하는 데 초점을 맞췄습니다.",
+      "engineImage": "",
+      "resourceImage": ""
     },
     {
       "id": "dreamy-ocean",
@@ -343,7 +352,10 @@
         }
       ],
       "videoUrl": "",
-      "fullSheet": "assets/dreamy-ocean-full.webp"
+      "fullSheet": "assets/dreamy-ocean-full.webp",
+      "overview": "바다 테마의 분위기를 유지하면서 플레이 진입, 퍼즐 진행, 상점 탐색에 필요한 정보의 역할을 구분했습니다. 주요 진입 버튼은 크게 드러내고 퍼즐의 목표와 도구는 보드 주변에 나누어 배치했으며, 상점에서는 가격과 해제 조건으로 선택 가능한 상태를 확인하도록 구성했습니다.",
+      "engineImage": "",
+      "resourceImage": ""
     },
     {
       "id": "arcana",
@@ -416,7 +428,10 @@
         }
       ],
       "videoUrl": "",
-      "fullSheet": "assets/arcana-full.webp"
+      "fullSheet": "assets/arcana-full.webp",
+      "overview": "월드 탐색에서 전투 진입과 영웅 관리로 이어지는 기능을 세로 화면 안에서 구분해 볼 수 있도록 구성했습니다. 자주 쓰는 기능은 하단에 모으고 영웅의 모습과 성장 정보를 영역별로 나누었으며, 보유 여부와 현재 선택은 카드의 색과 탭의 강조로 드러내는 데 초점을 맞췄습니다.",
+      "engineImage": "",
+      "resourceImage": ""
     }
   ]
 }

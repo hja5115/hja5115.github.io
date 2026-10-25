@@ -99,9 +99,13 @@ export function validatePortfolioDocument(document) {
   list(document.projects, '프로젝트', 20);
   const projectIds = new Set();
   for (const project of document.projects) {
-    object(project, ['id', 'title', 'genre', 'summary', 'role', 'tools', 'tags', 'accent', 'cover', 'fullSheet', 'images', 'process', 'videoUrl'], '프로젝트');
+    object(project, ['id', 'title', 'genre', 'summary', 'overview', 'engineImage', 'resourceImage', 'role', 'tools', 'tags', 'accent', 'cover', 'fullSheet', 'images', 'process', 'videoUrl'], '프로젝트');
     identifier(project.id, '프로젝트 ID', projectIds);
     for (const key of ['title', 'genre', 'summary', 'role']) string(project[key], `프로젝트 ${key}`);
+    if (Object.hasOwn(project, 'overview')) string(project.overview, '프로젝트 요약', 20000);
+    for (const key of ['engineImage', 'resourceImage']) {
+      if (Object.hasOwn(project, key)) validateImagePath(project[key]);
+    }
     for (const key of ['tools', 'tags']) {
       list(project[key], key, 40);
       for (const item of project[key]) string(item, key, 120);

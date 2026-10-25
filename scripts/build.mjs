@@ -5,7 +5,7 @@ import {validatePortfolioDocument} from '../js/github-store.js';
 const root=resolve(import.meta.dirname,'..');
 const data=JSON.parse(await readFile(join(root,'data/portfolio.json'),'utf8'));
 validatePortfolioDocument(data);
-const paths=new Set([data.site.heroImage,...data.projects.flatMap(p=>[p.cover,p.fullSheet,...p.images.map(i=>i.src),...p.process.map(s=>s.image)])].filter(Boolean));
+const paths=new Set([data.site.heroImage,...data.projects.flatMap(p=>[p.cover,p.fullSheet,p.engineImage,p.resourceImage,...p.images.map(i=>i.src),...p.process.map(s=>s.image)])].filter(Boolean));
 for(const path of paths){const file=await stat(join(root,path));if(!file.isFile())throw new Error(`Missing asset: ${path}`);}
 const output=resolve(root,'dist');
 if(output!==join(root,'dist')||!output.startsWith(root+sep))throw new Error('Unexpected output path');

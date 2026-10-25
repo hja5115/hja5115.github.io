@@ -20,7 +20,7 @@
   background: rgb(0 0 0 / 86%);
   backdrop-filter: blur(12px);
   color: var(--ed-text);
-  font-family: Pretendard, "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", Inter, sans-serif;
+  font-family: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", Inter, sans-serif;
   font-size: 16px;
   line-height: 1.6;
   text-align: left;

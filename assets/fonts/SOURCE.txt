@@ -1,0 +1,20 @@
+Noto Sans KR variable font — local webfont asset
+
+Official source: https://github.com/google/fonts/tree/main/ofl/notosanskr
+Downloaded source: https://raw.githubusercontent.com/google/fonts/main/ofl/notosanskr/NotoSansKR%5Bwght%5D.ttf
+License source: https://raw.githubusercontent.com/google/fonts/main/ofl/notosanskr/OFL.txt
+Retrieved: 2026-10-25 (Asia/Seoul)
+License: SIL Open Font License 1.1; see OFL.txt in this directory.
+
+This WOFF2 is a format conversion of the official variable TTF.
+No subsetting, glyph removal, or family renaming was performed.
+Conversion tools: fontTools 4.63.0, Brotli 1.2.1.
+Variable axis: wght 100–900 (default 100).
+Glyph count: 24964.
+Mapped Unicode code points: 23174.
+Modern Hangul syllables U+AC00–U+D7A3: 11172 / 11172 (complete).
+Original and converted Unicode cmap, glyph order, and variation axes match.
+
+Original TTF SHA-256: 194018e6b2b293a7964f037b25c0249ce1418bc9ab3c971060a03aa57861e252
+WOFF2 SHA-256: 7a2f8cc5162370493d2fd0608188cbf4561e11cea7baed8f1c185a378d02c3c7
+WOFF2 size: 3908308 bytes.

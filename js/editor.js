@@ -51,8 +51,20 @@ async function readImage(file) {
   }
 }
 
-async function prepareUpload(file) {
-  if (!/^image\/(png|jpe?g|webp|avif)$/.test(file.type)) throw new Error('PNG, JPG, WebP, AVIF 이미지 파일을 선택해 주세요.');
+function uploadBytes(bytes, extension) {
+  let binary = '';
+  for (let index = 0; index < bytes.length; index += 16384) binary += String.fromCharCode(...bytes.subarray(index, index + 16384));
+  return { path: `assets/uploads/${identifier('image')}.${extension}`, base64: btoa(binary) };
+}
+
+export async function prepareUpload(file) {
+  if (!/^image\/(png|jpe?g|webp|avif|gif)$/.test(file.type)) throw new Error('PNG, JPG, WebP, AVIF, GIF 이미지 파일을 선택해 주세요.');
+  if (file.type === 'image/gif') {
+    if (file.size > MAX_IMAGE_BYTES) throw new Error('GIF는 애니메이션을 유지할 수 있도록 2MB 이하 원본을 선택해 주세요.');
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    if (!['GIF87a', 'GIF89a'].includes(String.fromCharCode(...bytes.subarray(0, 6)))) throw new Error('올바른 GIF 파일을 선택해 주세요.');
+    return uploadBytes(bytes, 'gif');
+  }
   if (file.size > 24 * 1024 * 1024) throw new Error('이미지 원본은 24MB 이하로 선택해 주세요.');
   const image = await readImage(file);
   try {
@@ -81,9 +93,7 @@ async function prepareUpload(file) {
     }
     if (!blob) throw new Error('2MB 이하로 변환하지 못했습니다. 더 작은 이미지를 선택해 주세요.');
     const bytes = new Uint8Array(await blob.arrayBuffer());
-    let binary = '';
-    for (let index = 0; index < bytes.length; index += 16384) binary += String.fromCharCode(...bytes.subarray(index, index + 16384));
-    return { path: `assets/uploads/${identifier('image')}.webp`, base64: btoa(binary) };
+    return uploadBytes(bytes, 'webp');
   } finally {
     image.close?.();
   }
@@ -146,7 +156,7 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
   }
 
   function previewSrc(src) {
-    if (uploads.has(src)) return `data:image/webp;base64,${uploads.get(src).base64}`;
+    if (uploads.has(src)) return `data:${src.toLowerCase().endsWith('.gif') ? 'image/gif' : 'image/webp'};base64,${uploads.get(src).base64}`;
     return /^assets\/[A-Za-z0-9_./-]+$/.test(src || '') && !src.split('/').includes('..') ? src : '';
   }
 
@@ -178,6 +188,17 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
       <label class="ed-field"><span class="ed-label">함께 보여줄 이미지</span><select data-scope="process" data-field="image" data-index="${index}">${galleryChoices(project, step.image)}</select></label></article>`;
   }
 
+  function materialCard(project, key, title) {
+    const path = project[key] || '';
+    const src = previewSrc(path);
+    const isInGallery = project.images.some(image => image.src === path);
+    return `<article class="ed-process-card"><div class="ed-section-heading"><h4>${title}</h4><button class="ed-text-button ed-danger" type="button" data-action="material-remove" data-field="${key}"${path ? '' : ' disabled'}>자료 삭제</button></div>
+      <div class="ed-image-preview">${src ? `<img src="${escapeHtml(src)}" alt="${title}" loading="lazy">` : '<span>자료 등록 전</span>'}</div>
+      <label class="ed-field"><span class="ed-label">갤러리에서 선택</span><select data-scope="project" data-field="${key}">${path && !isInGallery ? `<option value="${escapeHtml(path)}" selected>직접 올린 자료</option>` : ''}${galleryChoices(project, path)}</select></label>
+      <label class="ed-button ed-button--secondary ed-upload-label">${path ? '새 파일로 교체' : '자료 파일 추가'}<input type="file" data-upload="${key}" accept="image/png,image/jpeg,image/webp,image/avif,image/gif"></label>
+      <p class="ed-filepath">${escapeHtml(path)}</p></article>`;
+  }
+
   function renderSite() {
     const site = portfolio.site || (portfolio.site = {});
     return `<section class="ed-section"><div class="ed-section-heading"><div><p class="ed-eyebrow">PROFILE</p><h3>사이트 소개</h3></div></div><div class="ed-two-columns">
@@ -204,10 +225,14 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
       <div class="ed-two-columns">${field('사용 도구', listText(project.tools), { key: 'tools', hint: '쉼표로 구분 · 예: Photoshop, Figma, Unity' })}${field('태그', listText(project.tags), { key: 'tags', hint: '쉼표로 구분 · 예: HUD, 인벤토리, UI 애니메이션' })}</div>
       <div class="ed-two-columns">${field('강조 색상', project.accent || '#69d9e7', { key: 'accent', type: 'color' })}<label class="ed-field"><span class="ed-label">대표 이미지</span><select data-scope="project" data-field="cover">${galleryChoices(project, project.cover, '첫 번째 이미지 사용')}</select></label></div>
       ${field('작동 영상 주소', project.videoUrl, { key: 'videoUrl', type: 'url', hint: 'YouTube / Vimeo 등 https:// 영상 링크. 비워 두어도 됩니다.' })}</section>
-      <section class="ed-section"><div class="ed-section-heading"><div><p class="ed-eyebrow">SCREEN GALLERY</p><h3>화면 이미지 <span class="ed-count">${project.images.length}</span></h3></div><label class="ed-button ed-button--secondary ed-upload-label">이미지 추가<input type="file" data-upload="gallery" accept="image/png,image/jpeg,image/webp,image/avif" multiple></label></div>
-      <p class="ed-section-description">갤러리 최대 80장 · 한 번에 20장까지 저장 · 긴 변 2,000px, 2MB 이하 WebP로 정리합니다. 업로드는 GitHub 저장을 누를 때 진행됩니다.</p>
-      <div class="ed-images-grid">${project.images.map(imageCard).join('') || '<p class="ed-empty-line">완성 화면, UX 흐름, Unity 적용 화면을 추가해 주세요.</p>'}</div></section>
-      <section class="ed-section"><div class="ed-section-heading"><div><p class="ed-eyebrow">PROCESS & DECISIONS</p><h3>제작 과정</h3></div><button class="ed-button ed-button--secondary" type="button" data-action="process-add"${project.process.length >= 40 ? ' disabled' : ''}>단계 추가</button></div><p class="ed-section-description">문제, 선택한 이유, 적용 결과를 짧게 기록해 보세요.</p><div class="ed-process-list">${project.process.map((step, index) => processCard(step, index, project)).join('') || '<p class="ed-empty-line">필요한 프로젝트에만 제작 과정을 추가할 수 있습니다.</p>'}</div></section>`;
+      <section class="ed-section"><div class="ed-section-heading"><div><p class="ed-eyebrow">PROJECT OVERVIEW</p><h3>요약과 제작 자료</h3></div></div>
+      ${field('프로젝트 설계 요약', project.overview || '', { key: 'overview', multiline: true, maxLength: 20000, hint: '갤러리 아래에 표시할 설계 의도를 두세 문장으로 정리해 주세요. 개별 화면 설명은 이미지 확대 보기에 남습니다.' })}
+      <p class="ed-section-description">왼쪽은 엔진 적용 화면 또는 GIF, 오른쪽은 리소스 자료입니다. 일반 이미지는 긴 변 2,000px, 2MB 이하 WebP로 정리하고 GIF는 2MB 이하 원본의 애니메이션을 유지합니다.</p>
+      <div class="ed-two-columns">${materialCard(project, 'engineImage', '엔진 적용 자료')}${materialCard(project, 'resourceImage', '리소스 자료')}</div></section>
+      <section class="ed-section"><div class="ed-section-heading"><div><p class="ed-eyebrow">SCREEN GALLERY</p><h3>화면 이미지 <span class="ed-count">${project.images.length}</span></h3></div><label class="ed-button ed-button--secondary ed-upload-label">이미지 추가<input type="file" data-upload="gallery" accept="image/png,image/jpeg,image/webp,image/avif,image/gif" multiple></label></div>
+      <p class="ed-section-description">갤러리 최대 80장 · 한 번에 20장까지 저장 · 일반 이미지는 긴 변 2,000px, 2MB 이하 WebP로 정리합니다. GIF는 2MB 이하 원본으로 애니메이션을 유지합니다. 업로드는 GitHub 저장을 누를 때 진행됩니다.</p>
+      <div class="ed-images-grid">${project.images.map(imageCard).join('') || '<p class="ed-empty-line">완성 화면, UX 흐름, 엔진 적용 화면을 추가해 주세요.</p>'}</div></section>
+      <details class="ed-section"><summary class="ed-label">보관한 설계 메모</summary><p class="ed-section-description">기존 단계별 설명과 이미지는 이곳에 보관됩니다. 공개 화면에는 위에서 작성한 프로젝트 설계 요약을 표시합니다.</p><button class="ed-button ed-button--secondary" type="button" data-action="process-add"${project.process.length >= 40 ? ' disabled' : ''}>메모 추가</button><div class="ed-process-list">${project.process.map((step, index) => processCard(step, index, project)).join('') || '<p class="ed-empty-line">보관한 설계 메모가 없습니다.</p>'}</div></details>`;
   }
 
   function renderWorkspace() {
@@ -261,6 +286,8 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
     if (portfolio.site?.heroImage) paths.add(portfolio.site.heroImage);
     for (const project of portfolio.projects) {
       if (project.cover) paths.add(project.cover);
+      if (project.engineImage) paths.add(project.engineImage);
+      if (project.resourceImage) paths.add(project.resourceImage);
       for (const image of project.images || []) paths.add(image.src);
       for (const step of project.process || []) if (step.image) paths.add(step.image);
     }
@@ -272,7 +299,7 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
     const { scope, field: key, index } = target.dataset;
     const allowed = {
       site: ['name', 'englishName', 'role', 'headline', 'intro', 'email', 'github', 'heroImage', 'contactUrl', 'contactLabel'],
-      project: ['title', 'genre', 'summary', 'role', 'tools', 'tags', 'accent', 'videoUrl', 'cover'],
+      project: ['title', 'genre', 'summary', 'overview', 'engineImage', 'resourceImage', 'role', 'tools', 'tags', 'accent', 'videoUrl', 'cover'],
       image: ['title', 'description', 'kind', 'alt'],
       process: ['label', 'title', 'body', 'image'],
     };
@@ -281,6 +308,11 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
     const item = scope === 'site' ? portfolio.site : scope === 'image' ? project?.images[Number(index)] : scope === 'process' ? project?.process[Number(index)] : project;
     if (!item) return;
     item[key] = key === 'tools' || key === 'tags' ? parseList(target.value) : target.value;
+    if (scope === 'project' && ['engineImage', 'resourceImage'].includes(key)) {
+      pruneUploads();
+      renderWorkspace();
+      return;
+    }
     if (key === 'title' && scope === 'project') {
       const name = [...root.querySelectorAll('[data-action="project-select"]')].find(button => button.dataset.id === selectedId)?.querySelector('.ed-project-name');
       if (name) name.textContent = target.value || '새 프로젝트';
@@ -311,6 +343,29 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
       announce(`${added}장의 이미지를 준비했습니다. GitHub에 저장하면 사이트에 반영됩니다.`, 'success');
     } catch (error) {
       announce(`${added ? `${added}장은 준비되었습니다. ` : ''}${textError(error)}`, 'error');
+    } finally {
+      setBusy(false);
+      renderWorkspace();
+    }
+  }
+
+  async function addMaterial(file, key) {
+    const project = currentProject();
+    if (!project || !file || !['engineImage', 'resourceImage'].includes(key)) return;
+    pruneUploads();
+    if (uploads.size >= 20) return announce('이미지는 한 번 저장할 때 20장까지 올릴 수 있습니다. 준비한 이미지를 먼저 저장해 주세요.', 'error');
+    setBusy(true);
+    try {
+      announce('자료 이미지를 준비하고 있습니다.');
+      const upload = await prepareUpload(file);
+      const combinedSize = [...uploads.values(), upload].reduce((sum, item) => sum + Math.floor(item.base64.length * 3 / 4), 0);
+      if (combinedSize > 30 * 1024 * 1024) throw new Error('한 번에 저장할 이미지 합계가 30MB를 넘었습니다. 준비한 이미지를 먼저 저장해 주세요.');
+      uploads.set(upload.path, upload);
+      project[key] = upload.path;
+      pruneUploads();
+      announce('자료를 준비했습니다. 미리 보기로 확인한 뒤 GitHub에 저장해 주세요.', 'success');
+    } catch (error) {
+      announce(textError(error), 'error');
     } finally {
       setBusy(false);
       renderWorkspace();
@@ -422,7 +477,7 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
     }
     if (actionName === 'project-add') {
       if (portfolio.projects.length >= MAX_PROJECTS) return announce('프로젝트를 최대 20개까지 추가할 수 있습니다.', 'error');
-      const item = { id: identifier('project'), title: '새 프로젝트', genre: '', summary: '', role: '', tools: [], tags: [], accent: '#69d9e7', cover: '', videoUrl: '', images: [], process: [] };
+      const item = { id: identifier('project'), title: '새 프로젝트', genre: '', summary: '', overview: '', engineImage: '', resourceImage: '', role: '', tools: [], tags: [], accent: '#69d9e7', cover: '', videoUrl: '', images: [], process: [] };
       portfolio.projects.push(item);
       selectedId = item.id;
       mode = 'project';
@@ -445,6 +500,10 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
     if (actionName === 'image-up' || actionName === 'image-down') {
       const target = index + (actionName === 'image-up' ? -1 : 1);
       if (project?.images[index] && project.images[target]) [project.images[index], project.images[target]] = [project.images[target], project.images[index]];
+    }
+    if (actionName === 'material-remove' && project && ['engineImage', 'resourceImage'].includes(button.dataset.field)) {
+      project[button.dataset.field] = '';
+      pruneUploads();
     }
     if (actionName === 'process-add' && project && project.process.length < 40) project.process.push({ id: identifier('step'), label: '', title: '', body: '', image: '' });
     if (actionName === 'process-remove' && project?.process[index]) project.process.splice(index, 1);
@@ -502,6 +561,12 @@ export async function openEditor({ document: initialDocument, config = {}, onPre
       const files = [...event.target.files];
       event.target.value = '';
       addImages(files);
+    }
+    if (event.target.matches('[data-upload="engineImage"], [data-upload="resourceImage"]')) {
+      const file = event.target.files[0];
+      const key = event.target.dataset.upload;
+      event.target.value = '';
+      addMaterial(file, key);
     }
   });
   document.addEventListener('keydown', keydown, true);
