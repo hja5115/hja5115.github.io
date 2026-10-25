@@ -3,7 +3,7 @@
   "site": {
     "name": "홍정아",
     "englishName": "Hong Jung Ah",
-    "role": "GAME UI/UX · UNITY",
+    "role": "GAME UI/UX · 엔진",
     "headline": "플레이의 흐름을 설계합니다.",
     "intro": "게임의 분위기를 담은 비주얼과 명확한 정보 구조로, 플레이의 순간을 이어가는 인터페이스를 만듭니다.",
     "email": "hongah44@gmail.com",
@@ -23,7 +23,8 @@
       "tags": [
         "UI Design",
         "TPS",
-        "PC"
+        "PC",
+        "Unity"
       ],
       "accent": "#4F7FFF",
       "cover": "assets/papershot-cover.webp",
@@ -115,7 +116,8 @@
       "tags": [
         "UI Design",
         "MOBA",
-        "Mobile"
+        "Mobile",
+        "Unity"
       ],
       "accent": "#D2B977",
       "cover": "assets/chronos-cover.webp",
@@ -197,7 +199,8 @@
       "tags": [
         "UI Design",
         "Shooter",
-        "Console"
+        "Console",
+        "Unity"
       ],
       "accent": "#6974FF",
       "cover": "assets/biobeam-cover.webp",
@@ -269,7 +272,8 @@
       "tags": [
         "UI Design",
         "Puzzle",
-        "Mobile"
+        "Mobile",
+        "Unity"
       ],
       "accent": "#39CCDA",
       "cover": "assets/dreamy-ocean-cover.webp",
@@ -351,7 +355,8 @@
       "tags": [
         "UI Design",
         "Collection RPG",
-        "Mobile"
+        "Mobile",
+        "Unity"
       ],
       "accent": "#D5B775",
       "cover": "assets/arcana-cover.webp",

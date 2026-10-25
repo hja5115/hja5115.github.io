@@ -14,6 +14,7 @@ let closeTimer;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = selector => document.querySelector(selector);
 const h = escapeHtml;
+const engineLabel = value => String(value ?? '').replace(/\bUnity\b/gi, '엔진');
 const asset = value => previewAssets.get(value) || safeAssetPath(value);
 
 async function boot() {
@@ -34,12 +35,12 @@ async function boot() {
 export function render(input) {
   documentData = normalizeDocument(input);
   const { site, projects } = documentData;
-  document.title = `${site.englishName || site.name} · Game UI/UX & Unity`;
+  document.title = `${site.englishName || site.name} · Game UI/UX & 엔진`;
   document.querySelectorAll('.brand-name').forEach(node => node.textContent = site.englishName || site.name);
-  $('.header-discipline').textContent = site.role;
+  $('.header-discipline').textContent = engineLabel(site.role);
   const roleLabel = $('.hero-copy .eyebrow');
   const statusDot = document.createElement('span'); statusDot.className = 'live-dot';
-  roleLabel.replaceChildren(statusDot, document.createTextNode(site.role));
+  roleLabel.replaceChildren(statusDot, document.createTextNode(engineLabel(site.role)));
   $('#hero-title').replaceChildren(...headlineNodes(site.headline));
   $('#hero-intro').textContent = site.intro;
   const heroImage = asset(site.heroImage || projects[0]?.cover || projects[0]?.images[0]?.src);
@@ -67,16 +68,15 @@ function headlineNodes(text) {
 function projectMarkup(project, index) {
   const accent = /^#[\da-f]{6}$/i.test(project.accent) ? project.accent : '#b0e2c3';
   const video = safeExternalUrl(project.videoUrl);
-  const sheet = asset(project.fullSheet);
   const leadIndex = Math.max(0, project.images.findIndex(image => image.src === project.cover));
   return `<article class="project" id="${h(project.id)}" style="--project-accent:${accent}">
     <div class="project-heading reveal"><span class="project-number">${String(index+1).padStart(2,'0')}</span><div><div class="project-title-line"><h3>${h(project.title)}</h3>${project.genre ? `<span class="genre-label">${h(project.genre)}</span>` : ''}</div><p class="project-summary">${h(project.summary)}</p><div class="project-tags">${[...new Set([...project.tags,...project.tools])].map(tag => `<span>${h(tag)}</span>`).join('')}</div></div><div class="gallery-controls"><span class="gallery-counter" data-counter="${h(project.id)}">01 / ${String(project.images.length).padStart(2,'0')}</span><button class="icon-button" data-gallery-prev="${h(project.id)}" aria-label="${h(project.title)} 이전 이미지">←</button><button class="icon-button" data-gallery-next="${h(project.id)}" aria-label="${h(project.title)} 다음 이미지">→</button></div></div>
     <div class="gallery reveal" data-gallery="${h(project.id)}" role="region" aria-label="${h(project.title)} 이미지 갤러리. 대표 이미지와 두 줄의 추가 이미지, 좌우 방향키로 이동" tabindex="0">${project.images[leadIndex] ? shotMarkup(project, project.images[leadIndex], leadIndex, true) : ''}${project.images.map((image,i) => ({image,index:i})).filter(entry => entry.index !== leadIndex).map(entry => shotMarkup(project,entry.image,entry.index)).join('')}</div>
-    <section class="project-process" aria-label="${h(project.title)} UX 설계 과정"><div class="process-intro reveal"><div><p class="eyebrow">BEHIND THE INTERFACE / UX</p><h4>화면을 설계한 관점</h4></div>${sheet ? `<a class="quiet-link" href="${h(sheet)}" target="_blank" rel="noopener noreferrer">전체 시트 보기 ↗</a>` : ''}</div><div class="process-grid">${project.process.map(step => `<article class="process-card reveal"><span class="process-step">${h(step.label)}</span><h5>${h(step.title)}</h5><p>${h(step.body)}</p>${asset(step.image) ? `<img src="${h(asset(step.image))}" alt="${h(step.title)} 설계 자료" loading="lazy">` : ''}</article>`).join('')}</div>${video ? `<a class="project-video" href="${h(video)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span> Unity / 인터랙션 작동 영상 <span aria-hidden="true">↗</span></a>` : ''}</section>
+    <section class="project-process" aria-label="${h(project.title)} UX 설계 과정"><div class="process-intro reveal"><div><p class="eyebrow">BEHIND THE INTERFACE / UX</p><h4>화면을 설계한 관점</h4></div></div><div class="process-grid">${project.process.map(step => `<article class="process-card reveal"><span class="process-step">${h(step.label)}</span><h5>${h(step.title)}</h5><p>${h(step.body)}</p>${asset(step.image) ? `<img src="${h(asset(step.image))}" alt="${h(step.title)} 설계 자료" loading="lazy">` : ''}</article>`).join('')}</div>${video ? `<a class="project-video" href="${h(video)}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">▶</span> 엔진 / 인터랙션 작동 영상 <span aria-hidden="true">↗</span></a>` : ''}</section>
   </article>`;
 }
 
-function shotMarkup(project,image,index,lead=false){return `<figure class="shot-card${lead?' lead-shot':''}" style="margin:0"><button class="shot-open" data-project="${h(project.id)}" data-image="${index}" aria-label="${h(image.title)} 이미지와 설명 확대 보기"><span class="shot-frame"><img src="${h(asset(image.src))}" alt="${h(image.alt || image.title)}" loading="lazy" decoding="async"${image.width?` width="${Number(image.width)}" height="${Number(image.height)}"`:''}></span><span class="shot-enlarge"><span class="enlarge-label">이미지 & 설명 보기</span><span aria-hidden="true">↗</span></span></button><figcaption class="shot-caption">${h(image.title)}<span>${lead?'MAIN SCREEN':h(image.kind||'UI')} / ${String(index+1).padStart(2,'0')}</span></figcaption></figure>`;}
+function shotMarkup(project,image,index,lead=false){return `<figure class="shot-card${lead?' lead-shot':''}" style="margin:0"><button class="shot-open" data-project="${h(project.id)}" data-image="${index}" aria-label="${h(image.title)} 이미지와 설명 확대 보기"><span class="shot-frame"><img src="${h(asset(image.src))}" alt="${h(image.alt || image.title)}" loading="lazy" decoding="async"${image.width?` width="${Number(image.width)}" height="${Number(image.height)}"`:''}></span><span class="shot-enlarge"><span class="enlarge-label">이미지 & 설명 보기</span><span aria-hidden="true">↗</span></span></button><figcaption class="shot-caption">${h(image.title)}<span>${lead?'MAIN SCREEN':h(engineLabel(image.kind||'UI'))} / ${String(index+1).padStart(2,'0')}</span></figcaption></figure>`;}
 
 function renderContact(site) {
   const contact = safeExternalUrl(site.contactUrl);
@@ -146,9 +146,9 @@ function fillViewer(){
   const {project,index}=viewerState,image=project.images[index];
   const node=$('#viewer-image');node.src=asset(image.src);node.alt=image.alt||image.title;
   $('#viewer-project').textContent=project.title;$('#viewer-count').textContent=`${String(index+1).padStart(2,'0')} / ${String(project.images.length).padStart(2,'0')}`;
-  $('#viewer-title').textContent=image.title;$('#viewer-kind').textContent=`${image.kind || 'UI'} / INTERFACE DETAIL`;
+  $('#viewer-title').textContent=image.title;$('#viewer-kind').textContent=`${engineLabel(image.kind || 'UI')} / INTERFACE DETAIL`;
   $('#viewer-description').textContent=image.description||project.summary;
-  $('#viewer-metadata').innerHTML=`<dt>PROJECT</dt><dd>${h(project.title)}</dd>${project.genre?`<dt>GENRE</dt><dd>${h(project.genre)}</dd>`:''}${project.role?`<dt>ROLE</dt><dd>${h(project.role)}</dd>`:''}${project.tools.length?`<dt>TOOLS</dt><dd>${h(project.tools.join(' · '))}</dd>`:''}`;
+  $('#viewer-metadata').innerHTML=`<dt>PROJECT</dt><dd>${h(project.title)}</dd>${project.genre?`<dt>GENRE</dt><dd>${h(project.genre)}</dd>`:''}${project.role?`<dt>ROLE</dt><dd>${h(project.role)}</dd>`:''}${project.tools.length?`<dt>TOOLS</dt><dd>${h(project.tools.map(engineLabel).join(' · '))}</dd>`:''}`;
   $('#viewer-prev').disabled=index===0;$('#viewer-next').disabled=index===project.images.length-1;
 }
 

@@ -89,3 +89,15 @@ main{position:relative;z-index:1}
 @media(max-width:760px){.hero{padding-bottom:60px}.project-heading{grid-template-columns:30px minmax(0,1fr)}.gallery{--gallery-gap:10px}.gallery .shot-enlarge{inset:auto 8px 8px auto;padding:5px 9px}.contact{padding:50px 0 40px}.contact h2{font-size:25px}.contact-actions{gap:10px}}
 @media(hover:none){.gallery .shot-enlarge{opacity:1;transform:none}}
 @media(prefers-reduced-motion:reduce),(pointer:coarse){.shot-open::after{display:none}}
+
+/* Align project content to the title, leaving the number in its own gutter. */
+.project{--project-inset:80px;--project-number-width:60px;--project-heading-gap:20px}
+.project-heading{grid-template-columns:var(--project-number-width) minmax(0,1fr) auto;gap:var(--project-heading-gap)}
+.gallery{margin-left:var(--project-inset);width:calc(100% - var(--project-inset));height:calc((100cqi - var(--project-inset) - var(--gallery-gap)) * .376875 + 19px)}
+.project-process{margin:55px 0 0 var(--project-inset)}
+.process-intro h4{font-weight:650}
+.process-card{padding-top:0;border-top:0;min-width:0}
+.process-step{display:inline-flex;align-items:center;max-width:100%;padding:7px 13px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(255,255,255,.05);color:#c4c7cb;font-size:16px;font-weight:500;line-height:1.5;letter-spacing:0}
+.process-card h5{font-size:21px;font-weight:700;line-height:1.5;margin:18px 0 12px}
+@media(max-width:1100px){.project{--project-inset:54px;--project-number-width:38px;--project-heading-gap:16px}.project-heading{grid-template-columns:var(--project-number-width) minmax(0,1fr)}}
+@media(max-width:760px){.project{--project-inset:40px;--project-number-width:30px;--project-heading-gap:10px}.project-process{margin-top:40px}.process-card h5{font-size:21px}}
